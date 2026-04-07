@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/hooks/useGameStore';
-import { SECONDS_PER_QUESTION } from '@/lib/sports';
+import { SECONDS_PER_QUESTION, calculatePointsFromTimeLeft } from '@/lib/sports';
 import ResultsScreen from './ResultsScreen';
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
@@ -27,12 +27,10 @@ export default function GameScreen() {
 
   const handleTimeUp = useCallback(() => {
     clearTimer();
-    // Auto-submit no answer
-    submitAnswer(-1); // -1 = timed out, always wrong
+    submitAnswer(-1, 0);
     setShowNext(true);
   }, [submitAnswer]);
 
-  // Start timer when new question loads
   useEffect(() => {
     if (game?.status !== 'playing') return;
     setTimeLeft(SECONDS_PER_QUESTION);
@@ -53,7 +51,6 @@ export default function GameScreen() {
     return clearTimer;
   }, [game?.currentIndex, game?.status, handleTimeUp]);
 
-  // Show next button after answering
   useEffect(() => {
     if (isAnswering) {
       clearTimer();
@@ -61,7 +58,6 @@ export default function GameScreen() {
     }
   }, [isAnswering]);
 
-  // Handle game completion
   useEffect(() => {
     if (isComplete && !gameResult) {
       completeGame().then(result => {
@@ -85,17 +81,33 @@ export default function GameScreen() {
   }
 
   if (isComplete) {
-    return <ResultsScreen game={game} result={gameResult} onPlayAgain={() => { resetGame(); router.push('/dashboard/play'); }} onHome={() => { resetGame(); router.push('/dashboard'); }} />;
+    return (
+      <ResultsScreen
+        game={game}
+        result={gameResult}
+        onPlayAgain={() => {
+          resetGame();
+          router.push('/dashboard/play');
+        }}
+        onHome={() => {
+          resetGame();
+          router.push('/dashboard');
+        }}
+      />
+    );
   }
 
   if (!currentQuestion) return null;
 
-  const progress = ((game.currentIndex) / game.questions.length) * 100;
+  const progress = (game.currentIndex / game.questions.length) * 100;
   const timerPct = (timeLeft / SECONDS_PER_QUESTION) * 100;
+  const earnedPoints =
+    currentQuestion.answerState === 'correct'
+      ? calculatePointsFromTimeLeft(SECONDS_PER_QUESTION - currentQuestion.timeSpent)
+      : 0;
 
   return (
     <div className="max-w-2xl mx-auto animate-slide-up">
-      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <span className="text-bk-gray-muted text-sm font-bold">
@@ -112,7 +124,6 @@ export default function GameScreen() {
         </div>
       </div>
 
-      {/* Progress bar */}
       <div className="w-full bg-bk-gray-light rounded-full h-1.5 mb-2">
         <div
           className="h-1.5 rounded-full bg-bk-gold transition-all duration-300"
@@ -120,22 +131,20 @@ export default function GameScreen() {
         />
       </div>
 
-      {/* Timer */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex-1 bg-bk-gray rounded-full h-2 overflow-hidden">
           <div
             className={`h-2 rounded-full transition-all duration-1000 ${
-              timeLeft <= 5 ? 'bg-red-500' : timeLeft <= 10 ? 'bg-yellow-500' : 'bg-bk-gold'
+              timeLeft <= 3 ? 'bg-red-500' : timeLeft <= 6 ? 'bg-yellow-500' : 'bg-bk-gold'
             }`}
             style={{ width: `${timerPct}%` }}
           />
         </div>
-        <span className={`ml-3 font-display text-xl w-6 text-right ${timeLeft <= 5 ? 'text-red-400' : 'text-bk-gray-muted'}`}>
+        <span className={`ml-3 font-display text-xl w-6 text-right ${timeLeft <= 3 ? 'text-red-400' : 'text-bk-gray-muted'}`}>
           {timeLeft}
         </span>
       </div>
 
-      {/* Question */}
       <div
         key={game.currentIndex}
         className="bg-bk-gray border border-bk-gray-light rounded-2xl p-6 mb-6 animate-pop-in"
@@ -145,7 +154,6 @@ export default function GameScreen() {
         </p>
       </div>
 
-      {/* Answer options */}
       <div className="space-y-3 mb-6">
         {currentQuestion.options.map((option, i) => {
           const isSelected = currentQuestion.playerAnswer === i;
@@ -166,7 +174,7 @@ export default function GameScreen() {
               onClick={() => {
                 if (!answered) {
                   clearTimer();
-                  submitAnswer(i);
+                  submitAnswer(i, timeLeft);
                 }
               }}
             >
@@ -183,7 +191,6 @@ export default function GameScreen() {
                 {option}
               </span>
 
-              {/* Bot answer indicator */}
               {answered && currentQuestion.botAnswer === i && (
                 <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-bk-gray-muted font-bold">
                   🤖
@@ -194,19 +201,20 @@ export default function GameScreen() {
         })}
       </div>
 
-      {/* Feedback + next button */}
       {showNext && (
         <div className="animate-slide-up">
           {currentQuestion.answerState === 'correct' && (
             <div className="mb-4 text-center">
-              <span className="text-green-400 font-bold text-lg">✓ Correct! +1 point</span>
+              <span className="text-green-400 font-bold text-lg">
+                ✓ Correct! +{earnedPoints} {earnedPoints === 1 ? 'point' : 'points'}
+              </span>
             </div>
           )}
           {currentQuestion.answerState === 'wrong' && (
             <div className="mb-4 text-center">
               <span className="text-red-400 font-bold text-lg">✗ Wrong</span>
               {currentQuestion.playerAnswer === -1 && (
-                <span className="text-bk-gray-muted text-sm ml-2">(time's up)</span>
+                <span className="text-bk-gray-muted text-sm ml-2">(time&apos;s up)</span>
               )}
             </div>
           )}
