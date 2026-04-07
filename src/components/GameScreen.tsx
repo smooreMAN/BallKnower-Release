@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGameStore } from '@/hooks/useGameStore';
-import { SECONDS_PER_QUESTION, calculatePointsFromTimeLeft } from '@/lib/sports';
+import { SECONDS_PER_QUESTION, calculatePointsFromTimeLeft } from '../lib/sports';
 import ResultsScreen from './ResultsScreen';
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
