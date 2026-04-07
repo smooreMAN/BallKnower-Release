@@ -12,4 +12,11 @@ export const SPORTS: SportConfig[] = [
 ];
 
 export const QUESTIONS_PER_GAME = 10;
-export const SECONDS_PER_QUESTION = 15;
+export const SECONDS_PER_QUESTION = 10;
+
+export function calculatePointsFromTimeLeft(timeLeft: number): number {
+  if (timeLeft >= 7) return 3;
+  if (timeLeft >= 4) return 2;
+  if (timeLeft >= 1) return 1;
+  return 0;
+}
