@@ -27,28 +27,47 @@ export default function MatchmakingScreen() {
 
     pollRef.current = setInterval(async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
 
-        const { data: queueEntry } = await supabase
+        if (!user) {
+          clearPoll();
+          setSearching(false);
+          setError('You were logged out. Please log in again.');
+          return;
+        }
+
+        const { data: queueEntry, error: queueError } = await supabase
           .from('matchmaking_queue')
-          .select('match_id')
+          .select('match_id, status')
           .eq('user_id', user.id)
           .single();
+
+        if (queueError) {
+          return;
+        }
 
         if (queueEntry?.match_id) {
           clearPoll();
           router.push(`/dashboard/match/${queueEntry.match_id}`);
           router.refresh();
+          return;
+        }
+
+        if (!queueEntry || queueEntry.status !== 'searching') {
+          clearPoll();
+          setSearching(false);
+          setError('Matchmaking was interrupted. Please try again.');
         }
       } catch {
-        // keep polling
+        // keep polling quietly
       }
-    }, 2000);
+    }, 1500);
   };
 
   const handleFindMatch = async () => {
-    if (!selectedSport) return;
+    if (!selectedSport || searching) return;
 
     setError('');
     setSearching(true);
@@ -69,6 +88,7 @@ export default function MatchmakingScreen() {
       }
 
       if (data.status === 'matched' && data.matchId) {
+        clearPoll();
         router.push(`/dashboard/match/${data.matchId}`);
         router.refresh();
         return;
@@ -76,10 +96,11 @@ export default function MatchmakingScreen() {
 
       if (data.status === 'searching' || data.status === 'already_in_queue') {
         startPollingForMatch();
-      } else {
-        setError('Unexpected matchmaking response.');
-        setSearching(false);
+        return;
       }
+
+      setError('Unexpected matchmaking response.');
+      setSearching(false);
     } catch {
       setError('Something went wrong starting matchmaking.');
       setSearching(false);
@@ -92,11 +113,12 @@ export default function MatchmakingScreen() {
         method: 'POST',
       });
     } catch {
-      // ignore
+      // ignore cancel errors
     }
 
     clearPoll();
     setSearching(false);
+    setError('');
   };
 
   useEffect(() => {
