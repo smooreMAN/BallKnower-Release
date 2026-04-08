@@ -7,23 +7,25 @@ export default async function FriendsPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) return null;
+
   const { data: profile } = await supabase
     .from('profiles')
     .select('id, username')
-    .eq('id', user!.id)
+    .eq('id', user.id)
     .single();
 
   const { data: incomingRows } = await supabase
     .from('friends')
     .select('id, requester_id, addressee_id, status, created_at, responded_at')
-    .eq('addressee_id', user!.id)
+    .eq('addressee_id', user.id)
     .eq('status', 'pending')
     .order('created_at', { ascending: false });
 
   const { data: acceptedRows } = await supabase
     .from('friends')
     .select('id, requester_id, addressee_id, status, created_at, responded_at')
-    .or(`requester_id.eq.${user!.id},addressee_id.eq.${user!.id}`)
+    .or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`)
     .eq('status', 'accepted')
     .order('created_at', { ascending: false });
 
@@ -32,7 +34,7 @@ export default async function FriendsPage() {
   const acceptedFriendIds = [
     ...new Set(
       (acceptedRows ?? []).map((row) =>
-        row.requester_id === user!.id ? row.addressee_id : row.requester_id
+        row.requester_id === user.id ? row.addressee_id : row.requester_id
       )
     ),
   ];
@@ -58,7 +60,7 @@ export default async function FriendsPage() {
   }));
 
   const friends = (acceptedRows ?? []).map((row) => {
-    const friendId = row.requester_id === user!.id ? row.addressee_id : row.requester_id;
+    const friendId = row.requester_id === user.id ? row.addressee_id : row.requester_id;
     return {
       id: row.id,
       created_at: row.created_at,
@@ -68,7 +70,7 @@ export default async function FriendsPage() {
 
   return (
     <FriendsClient
-      currentUserId={user!.id}
+      currentUserId={user.id}
       currentUsername={profile?.username ?? 'You'}
       incoming={incoming}
       friends={friends}
