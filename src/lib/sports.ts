@@ -66,20 +66,23 @@ export const GAME_CONFIG = {
   SECONDS_PER_QUESTION: 10,
 };
 
+export const QUESTIONS_PER_GAME = GAME_CONFIG.QUESTIONS_PER_GAME;
+export const SECONDS_PER_QUESTION = GAME_CONFIG.SECONDS_PER_QUESTION;
+
 /**
  * Points system (speed-based scoring)
  * Faster answer = more points
  */
 export function calculatePointsFromTimeLeft(timeLeft: number): number {
-  if (timeLeft >= 7) return 3;   // fast
-  if (timeLeft >= 4) return 2;   // medium
-  if (timeLeft >= 1) return 1;   // slow
-  return 0;                      // timeout
+  if (timeLeft >= 7) return 3;
+  if (timeLeft >= 4) return 2;
+  if (timeLeft >= 1) return 1;
+  return 0;
 }
 
 /**
- * Optional helper (you’ll want this soon)
+ * Optional helper
  */
 export function getSportById(id: string) {
-  return SPORTS.find(s => s.id === id);
+  return SPORTS.find((s) => s.id === id);
 }
