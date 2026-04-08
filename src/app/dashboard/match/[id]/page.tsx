@@ -4,7 +4,7 @@ import MultiplayerGameScreen from '@/components/MultiplayerGameScreen';
 export default async function MatchPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const supabase = await createClient();
 
@@ -12,9 +12,8 @@ export default async function MatchPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  const matchId = params.id;
+  const { id: matchId } = await params;
 
-  // Get match
   const { data: match } = await supabase
     .from('matches')
     .select('*')
@@ -25,7 +24,6 @@ export default async function MatchPage({
     return <div className="p-10 text-white">Match not found</div>;
   }
 
-  // Get players
   const { data: player1 } = await supabase
     .from('profiles')
     .select('*')
@@ -38,13 +36,11 @@ export default async function MatchPage({
     .eq('id', match.player2_id)
     .single();
 
-  // Get questions
   const { data: questions } = await supabase
     .from('questions')
     .select('*')
     .in('id', match.question_ids);
 
-  // Get answers
   const { data: answers } = await supabase
     .from('answers')
     .select('*')
