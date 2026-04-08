@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { SPORTS } from '@/lib/sports';
 
 type IncomingRequest = {
   id: string;
@@ -43,6 +44,10 @@ type FriendItem = {
   } | null;
 };
 
+type DifficultyOption = 'easy' | 'medium' | 'hard' | 'elite';
+
+const DIFFICULTIES: DifficultyOption[] = ['easy', 'medium', 'hard', 'elite'];
+
 export default function FriendsClient({
   currentUserId,
   currentUsername,
@@ -68,6 +73,11 @@ export default function FriendsClient({
   const [localIncoming, setLocalIncoming] = useState(incoming);
   const [localFriends, setLocalFriends] = useState(friends);
   const [localIncomingChallenges, setLocalIncomingChallenges] = useState(incomingChallenges);
+
+  const [challengePickerOpenFor, setChallengePickerOpenFor] = useState<string | null>(null);
+  const [challengeTargetName, setChallengeTargetName] = useState('');
+  const [selectedSport, setSelectedSport] = useState<string>('nba');
+  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyOption>('medium');
 
   useEffect(() => {
     setLocalIncoming(incoming);
@@ -96,6 +106,19 @@ export default function FriendsClient({
       ),
     [localIncomingChallenges, currentUserId]
   );
+
+  const openChallengePicker = (friendId: string, friendUsername: string) => {
+    setMessage('');
+    setChallengePickerOpenFor(friendId);
+    setChallengeTargetName(friendUsername);
+    setSelectedSport('nba');
+    setSelectedDifficulty('medium');
+  };
+
+  const closeChallengePicker = () => {
+    setChallengePickerOpenFor(null);
+    setChallengeTargetName('');
+  };
 
   const handleSendRequest = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -171,8 +194,8 @@ export default function FriendsClient({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           challengedId: friendId,
-          sport: 'nba',
-          difficulty: 'medium',
+          sport: selectedSport,
+          difficulty: selectedDifficulty,
         }),
       });
 
@@ -183,7 +206,8 @@ export default function FriendsClient({
         return;
       }
 
-      setMessage(`Challenge sent to ${friendUsername}`);
+      setMessage(`Challenge sent to ${friendUsername} in ${selectedSport.toUpperCase()} (${selectedDifficulty})`);
+      closeChallengePicker();
       router.refresh();
     } catch (error) {
       console.error('send challenge failed', error);
@@ -380,29 +404,109 @@ export default function FriendsClient({
           <div className="space-y-3">
             {visibleFriends.map((row) => {
               const friend = row.friend;
+              const pickerOpen = challengePickerOpenFor === friend?.id;
 
               return (
                 <div
                   key={row.id}
-                  className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+                  className="bg-bk-black border border-bk-gray-light rounded-xl p-4"
                 >
-                  <div>
-                    <p className="font-bold text-bk-white">{friend?.username ?? 'Unknown user'}</p>
-                    <p className="text-sm text-bk-gray-muted">Elo: {friend?.elo ?? '—'}</p>
-                    <p className="text-xs text-bk-gray-muted break-all mt-1">
-                      {friend?.id ?? 'Unknown ID'}
-                    </p>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <p className="font-bold text-bk-white">{friend?.username ?? 'Unknown user'}</p>
+                      <p className="text-sm text-bk-gray-muted">Elo: {friend?.elo ?? '—'}</p>
+                      <p className="text-xs text-bk-gray-muted break-all mt-1">
+                        {friend?.id ?? 'Unknown ID'}
+                      </p>
+                    </div>
+
+                    {friend && friend.id !== currentUserId ? (
+                      <button
+                        onClick={() => openChallengePicker(friend.id, friend.username)}
+                        className="px-4 py-2 rounded-lg bg-bk-gold text-bk-black font-bold hover:opacity-90"
+                      >
+                        Challenge
+                      </button>
+                    ) : null}
                   </div>
 
-                  {friend && friend.id !== currentUserId ? (
-                    <button
-                      onClick={() => handleChallenge(friend.id, friend.username)}
-                      disabled={challengingId === friend.id}
-                      className="px-4 py-2 rounded-lg bg-bk-gold text-bk-black font-bold hover:opacity-90 disabled:opacity-50"
-                    >
-                      {challengingId === friend.id ? 'Sending...' : 'Challenge'}
-                    </button>
-                  ) : null}
+                  {pickerOpen && friend && (
+                    <div className="mt-4 border-t border-bk-gray-light pt-4 space-y-4">
+                      <div>
+                        <p className="text-sm font-bold text-bk-white mb-2">
+                          Challenge {challengeTargetName}
+                        </p>
+                        <p className="text-xs text-bk-gray-muted">
+                          Pick a sport and difficulty before sending.
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="text-xs uppercase tracking-widest text-bk-gray-muted font-bold mb-2">
+                          Sport
+                        </p>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {SPORTS.map((sport) => (
+                            <button
+                              key={sport.id}
+                              type="button"
+                              onClick={() => setSelectedSport(sport.id)}
+                              className={`rounded-xl border px-3 py-3 text-left transition-all ${
+                                selectedSport === sport.id
+                                  ? 'border-bk-gold bg-bk-gold/10 text-bk-white'
+                                  : 'border-bk-gray-light bg-bk-gray text-bk-gray-muted hover:border-bk-gold/50'
+                              }`}
+                            >
+                              <div className="text-lg mb-1">{sport.emoji}</div>
+                              <div className="text-sm font-bold">{sport.label}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <p className="text-xs uppercase tracking-widest text-bk-gray-muted font-bold mb-2">
+                          Difficulty
+                        </p>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {DIFFICULTIES.map((difficulty) => (
+                            <button
+                              key={difficulty}
+                              type="button"
+                              onClick={() => setSelectedDifficulty(difficulty)}
+                              className={`rounded-xl border px-3 py-3 text-sm font-bold capitalize transition-all ${
+                                selectedDifficulty === difficulty
+                                  ? 'border-bk-gold bg-bk-gold text-bk-black'
+                                  : 'border-bk-gray-light bg-bk-gray text-bk-white hover:border-bk-gold/50'
+                              }`}
+                            >
+                              {difficulty}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleChallenge(friend.id, friend.username)}
+                          disabled={challengingId === friend.id}
+                          className="px-4 py-2 rounded-lg bg-bk-gold text-bk-black font-bold hover:opacity-90 disabled:opacity-50"
+                        >
+                          {challengingId === friend.id ? 'Sending...' : 'Send Challenge'}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={closeChallengePicker}
+                          disabled={challengingId === friend.id}
+                          className="px-4 py-2 rounded-lg border border-bk-gray-light text-bk-white font-bold hover:border-bk-gold hover:text-bk-gold disabled:opacity-50"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
