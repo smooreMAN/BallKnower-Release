@@ -29,6 +29,13 @@ export default async function FriendsPage() {
     .eq('status', 'accepted')
     .order('created_at', { ascending: false });
 
+  const { data: incomingChallengeRows } = await supabase
+    .from('friend_challenges')
+    .select('id, challenger_id, challenged_id, sport, difficulty, status, created_at, responded_at')
+    .eq('challenged_id', user.id)
+    .eq('status', 'pending')
+    .order('created_at', { ascending: false });
+
   const incomingIds = [...new Set((incomingRows ?? []).map((row) => row.requester_id))];
 
   const acceptedFriendIds = [
@@ -39,7 +46,9 @@ export default async function FriendsPage() {
     ),
   ];
 
-  const allProfileIds = [...new Set([...incomingIds, ...acceptedFriendIds])];
+  const challengerIds = [...new Set((incomingChallengeRows ?? []).map((row) => row.challenger_id))];
+
+  const allProfileIds = [...new Set([...incomingIds, ...acceptedFriendIds, ...challengerIds])];
 
   let relatedProfiles: { id: string; username: string; elo: number }[] = [];
 
@@ -68,12 +77,18 @@ export default async function FriendsPage() {
     };
   });
 
+  const incomingChallenges = (incomingChallengeRows ?? []).map((row) => ({
+    ...row,
+    challenger: profileMap.get(row.challenger_id) ?? null,
+  }));
+
   return (
     <FriendsClient
       currentUserId={user.id}
       currentUsername={profile?.username ?? 'You'}
       incoming={incoming}
       friends={friends}
+      incomingChallenges={incomingChallenges}
     />
   );
 }

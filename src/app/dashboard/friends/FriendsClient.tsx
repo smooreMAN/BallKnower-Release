@@ -17,6 +17,22 @@ type IncomingRequest = {
   } | null;
 };
 
+type IncomingChallenge = {
+  id: string;
+  challenger_id: string;
+  challenged_id: string;
+  sport: string;
+  difficulty: string;
+  status: string;
+  created_at: string;
+  responded_at: string | null;
+  challenger: {
+    id: string;
+    username: string;
+    elo: number;
+  } | null;
+};
+
 type FriendItem = {
   id: string;
   created_at: string;
@@ -32,11 +48,13 @@ export default function FriendsClient({
   currentUsername,
   incoming,
   friends,
+  incomingChallenges,
 }: {
   currentUserId: string;
   currentUsername: string;
   incoming: IncomingRequest[];
   friends: FriendItem[];
+  incomingChallenges: IncomingChallenge[];
 }) {
   const router = useRouter();
   const [userIdInput, setUserIdInput] = useState('');
@@ -220,6 +238,36 @@ export default function FriendsClient({
       </div>
 
       <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-5">
+        <h2 className="font-display text-2xl text-bk-white mb-4">INCOMING CHALLENGES</h2>
+
+        {incomingChallenges.length === 0 ? (
+          <p className="text-bk-gray-muted">No incoming challenges.</p>
+        ) : (
+          <div className="space-y-3">
+            {incomingChallenges.map((challenge) => (
+              <div
+                key={challenge.id}
+                className="bg-bk-black border border-bk-gray-light rounded-xl p-4"
+              >
+                <p className="font-bold text-bk-white">
+                  {challenge.challenger?.username ?? 'Unknown user'}
+                </p>
+                <p className="text-sm text-bk-gray-muted">
+                  Elo: {challenge.challenger?.elo ?? '—'}
+                </p>
+                <p className="text-sm text-bk-white mt-2">
+                  Sport: <span className="text-bk-gold uppercase">{challenge.sport}</span>
+                </p>
+                <p className="text-sm text-bk-gray-muted">
+                  Difficulty: {challenge.difficulty}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-5">
         <h2 className="font-display text-2xl text-bk-white mb-4">YOUR FRIENDS</h2>
 
         {friends.length === 0 ? (
@@ -241,7 +289,7 @@ export default function FriendsClient({
 
                 {row.friend && (
                   <button
-                    onClick={() => handleChallenge(row.friend!.id, row.friend!.username)}
+                    onClick={() => handleChallenge(row.friend.id, row.friend.username)}
                     disabled={challengingId === row.friend?.id}
                     className="px-4 py-2 rounded-lg bg-bk-gold text-bk-black font-bold hover:opacity-90 disabled:opacity-50"
                   >
