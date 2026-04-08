@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getSharedQuestions } from '@/lib/question-bank';
+import type { Sport, Difficulty } from '@/types';
+
+type RequestBody = {
+  challengedId: string;
+  sport: Sport;
+  difficulty: Difficulty;
+};
 
 export async function POST(req: NextRequest) {
   try {
-    const { challengedId, sport, difficulty } = await req.json();
+    const body = (await req.json()) as Partial<RequestBody>;
+    const { challengedId, sport, difficulty } = body;
 
     if (!challengedId || typeof challengedId !== 'string') {
       return NextResponse.json({ error: 'challengedId is required' }, { status: 400 });
@@ -17,6 +25,9 @@ export async function POST(req: NextRequest) {
     if (!difficulty || typeof difficulty !== 'string') {
       return NextResponse.json({ error: 'difficulty is required' }, { status: 400 });
     }
+
+    const typedSport = sport as Sport;
+    const typedDifficulty = difficulty as Difficulty;
 
     const supabase = await createClient();
 
@@ -52,8 +63,8 @@ export async function POST(req: NextRequest) {
 
     try {
       const shared = await getSharedQuestions({
-        sport,
-        difficulty,
+        sport: typedSport,
+        difficulty: typedDifficulty,
         count: 10,
       });
 
@@ -101,8 +112,8 @@ export async function POST(req: NextRequest) {
       .insert({
         player1_id: user.id,
         player2_id: challengedId,
-        sport,
-        difficulty,
+        sport: typedSport,
+        difficulty: typedDifficulty,
         question_ids: questionIds,
         current_question_index: 0,
         player1_score: 0,
@@ -147,8 +158,8 @@ export async function POST(req: NextRequest) {
       .insert({
         challenger_id: user.id,
         challenged_id: challengedId,
-        sport,
-        difficulty,
+        sport: typedSport,
+        difficulty: typedDifficulty,
         status: 'pending',
         match_id: match.id,
       })
