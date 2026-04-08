@@ -100,6 +100,7 @@ export default function FriendsClient({
     () =>
       localIncomingChallenges.filter(
         (challenge) =>
+          challenge.status === 'pending' &&
           challenge.challenger &&
           challenge.challenger.id !== currentUserId &&
           challenge.challenged_id === currentUserId
@@ -206,7 +207,9 @@ export default function FriendsClient({
         return;
       }
 
-      setMessage(`Challenge sent to ${friendUsername} in ${selectedSport.toUpperCase()} (${selectedDifficulty})`);
+      setMessage(
+        `Challenge sent to ${friendUsername} in ${selectedSport.toUpperCase()} (${selectedDifficulty})`
+      );
       closeChallengePicker();
       router.refresh();
     } catch (error) {
@@ -234,6 +237,15 @@ export default function FriendsClient({
       const data = await res.json();
 
       if (!res.ok) {
+        if (data.error === 'Challenge already handled') {
+          setLocalIncomingChallenges((prev) =>
+            prev.filter((challenge) => challenge.id !== challengeId)
+          );
+          setMessage('Challenge already handled');
+          router.refresh();
+          return;
+        }
+
         setMessage(data.error || 'Failed to respond to challenge');
         return;
       }
@@ -244,15 +256,16 @@ export default function FriendsClient({
 
       if (action === 'accepted') {
         setMessage('Challenge accepted');
+
         if (data.matchId) {
           router.push(`/dashboard/match/${data.matchId}`);
+          router.refresh();
           return;
         }
       } else {
         setMessage('Challenge declined');
+        router.refresh();
       }
-
-      router.refresh();
     } catch (error) {
       console.error('challenge response failed', error);
       setMessage('Failed to respond to challenge');
