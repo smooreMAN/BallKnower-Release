@@ -374,30 +374,34 @@ export default function FriendsClient({
           <p className="text-bk-gray-muted">No friends yet.</p>
         ) : (
           <div className="space-y-3">
-            {visibleFriends.map((row) => (
-              <div
-                key={row.id}
-                className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-              >
-                <div>
-                  <p className="font-bold text-bk-white">{row.friend?.username ?? 'Unknown user'}</p>
-                  <p className="text-sm text-bk-gray-muted">Elo: {row.friend?.elo ?? '—'}</p>
-                  <p className="text-xs text-bk-gray-muted break-all mt-1">
-                    {row.friend?.id ?? 'Unknown ID'}
-                  </p>
-                </div>
+            {visibleFriends.map((row) => {
+              const friend = row.friend;
 
-                {row.friend && row.friend.id !== currentUserId && (
-                  <button
-                    onClick={() => handleChallenge(row.friend.id, row.friend.username)}
-                    disabled={challengingId === row.friend.id}
-                    className="px-4 py-2 rounded-lg bg-bk-gold text-bk-black font-bold hover:opacity-90 disabled:opacity-50"
-                  >
-                    {challengingId === row.friend.id ? 'Sending...' : 'Challenge'}
-                  </button>
-                )}
-              </div>
-            ))}
+              return (
+                <div
+                  key={row.id}
+                  className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+                >
+                  <div>
+                    <p className="font-bold text-bk-white">{friend?.username ?? 'Unknown user'}</p>
+                    <p className="text-sm text-bk-gray-muted">Elo: {friend?.elo ?? '—'}</p>
+                    <p className="text-xs text-bk-gray-muted break-all mt-1">
+                      {friend?.id ?? 'Unknown ID'}
+                    </p>
+                  </div>
+
+                  {friend && friend.id !== currentUserId ? (
+                    <button
+                      onClick={() => handleChallenge(friend.id, friend.username)}
+                      disabled={challengingId === friend.id}
+                      className="px-4 py-2 rounded-lg bg-bk-gold text-bk-black font-bold hover:opacity-90 disabled:opacity-50"
+                    >
+                      {challengingId === friend.id ? 'Sending...' : 'Challenge'}
+                    </button>
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
