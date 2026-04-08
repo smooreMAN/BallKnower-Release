@@ -207,10 +207,17 @@ export default function FriendsClient({
         return;
       }
 
+      closeChallengePicker();
+
+      if (data.matchId) {
+        router.push(`/dashboard/match/${data.matchId}`);
+        router.refresh();
+        return;
+      }
+
       setMessage(
         `Challenge sent to ${friendUsername} in ${selectedSport.toUpperCase()} (${selectedDifficulty})`
       );
-      closeChallengePicker();
       router.refresh();
     } catch (error) {
       console.error('send challenge failed', error);

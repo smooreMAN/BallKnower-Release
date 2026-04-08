@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { getSharedQuestions } from '@/lib/question-bank';
 
 export async function POST(req: NextRequest) {
   try {
@@ -47,7 +48,82 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Expire any older pending challenge from this same challenger to this same challenged user
+    let questionIds: string[] = [];
+
+    try {
+      const shared = await getSharedQuestions({
+        sport,
+        difficulty,
+        count: 10,
+      });
+
+      if (!shared || !Array.isArray(shared.questionIds)) {
+        return NextResponse.json(
+          { error: 'Question bank returned invalid data' },
+          { status: 500 }
+        );
+      }
+
+      questionIds = shared.questionIds;
+    } catch (error) {
+      console.error('getSharedQuestions failed:', error);
+      const message =
+        error instanceof Error ? error.message : 'Failed to load shared questions';
+
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+
+    if (questionIds.length !== 10) {
+      return NextResponse.json(
+        { error: `Need 10 shared questions, got ${questionIds.length}` },
+        { status: 400 }
+      );
+    }
+
+    const { data: existingPendingMatch } = await supabase
+      .from('multiplayer_matches')
+      .select('id')
+      .eq('player1_id', user.id)
+      .eq('player2_id', challengedId)
+      .eq('status', 'lobby')
+      .maybeSingle();
+
+    if (existingPendingMatch) {
+      return NextResponse.json({
+        success: true,
+        matchId: existingPendingMatch.id,
+        username: challengedUser.username,
+      });
+    }
+
+    const { data: match, error: matchError } = await supabase
+      .from('multiplayer_matches')
+      .insert({
+        player1_id: user.id,
+        player2_id: challengedId,
+        sport,
+        difficulty,
+        question_ids: questionIds,
+        current_question_index: 0,
+        player1_score: 0,
+        player2_score: 0,
+        player1_ready: false,
+        player2_ready: false,
+        status: 'lobby',
+        winner_id: null,
+        started_at: null,
+      })
+      .select('id')
+      .single();
+
+    if (matchError || !match) {
+      console.error('Match insert error:', matchError);
+      return NextResponse.json(
+        { error: matchError?.message || 'Failed to create match' },
+        { status: 500 }
+      );
+    }
+
     const { error: expireError } = await supabase
       .from('friend_challenges')
       .update({
@@ -74,6 +150,7 @@ export async function POST(req: NextRequest) {
         sport,
         difficulty,
         status: 'pending',
+        match_id: match.id,
       })
       .select('id')
       .single();
@@ -89,6 +166,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       challengeId: insertedChallenge.id,
+      matchId: match.id,
       username: challengedUser.username,
     });
   } catch (error) {
