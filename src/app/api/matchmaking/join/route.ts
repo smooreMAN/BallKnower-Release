@@ -7,6 +7,10 @@ export async function POST(req: NextRequest) {
   try {
     const { sport } = await req.json();
 
+    if (!sport) {
+      return NextResponse.json({ error: 'Sport is required' }, { status: 400 });
+    }
+
     const supabase = await createClient();
 
     const {
@@ -17,22 +21,33 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', user.id)
       .single();
 
-    if (!profile) {
+    if (profileError || !profile) {
       return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
     }
 
-    const { data: existingQueue } = await supabase
+    // Check if this user is already in queue or already matched
+    const { data: existingQueue, error: existingQueueError } = await supabase
       .from('matchmaking_queue')
       .select('*')
       .eq('user_id', user.id)
       .single();
 
+    // Ignore "no rows" style cases, but fail on real errors if needed
+    if (existingQueueError && existingQueueError.code !== 'PGRST116') {
+      console.error(existingQueueError);
+      return NextResponse.json(
+        { error: 'Failed to check existing queue state' },
+        { status: 500 }
+      );
+    }
+
+    // If this user has already been matched, return the match immediately
     if (existingQueue?.match_id) {
       return NextResponse.json({
         status: 'matched',
@@ -40,11 +55,13 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    if (existingQueue) {
-      return NextResponse.json({ status: 'already_in_queue' });
+    // If they are already searching, let frontend keep polling this endpoint
+    if (existingQueue && existingQueue.status === 'searching') {
+      return NextResponse.json({ status: 'searching' });
     }
 
-    const { data: queue } = await supabase
+    // Find another searching player in same sport
+    const { data: queue, error: queueError } = await supabase
       .from('matchmaking_queue')
       .select('*')
       .eq('sport', sport)
@@ -52,6 +69,14 @@ export async function POST(req: NextRequest) {
       .is('match_id', null)
       .neq('user_id', user.id)
       .order('created_at', { ascending: true });
+
+    if (queueError) {
+      console.error(queueError);
+      return NextResponse.json(
+        { error: 'Failed to search matchmaking queue' },
+        { status: 500 }
+      );
+    }
 
     let opponent: {
       id: string;
@@ -65,20 +90,14 @@ export async function POST(req: NextRequest) {
 
     if (queue) {
       for (const q of queue) {
-        if (
-          canPlayersMatch(
-            profile.elo,
-            q.elo,
-            profile.games_played,
-            20
-          )
-        ) {
+        if (canPlayersMatch(profile.elo, q.elo, profile.games_played, 20)) {
           opponent = q;
           break;
         }
       }
     }
 
+    // If opponent found, create active match immediately
     if (opponent) {
       const difficulty = getMatchDifficultyFromElo(profile.elo, opponent.elo);
 
@@ -96,6 +115,7 @@ export async function POST(req: NextRequest) {
           sport,
           difficulty,
           question_ids: questionIds,
+          status: 'active',
         })
         .select()
         .single();
@@ -108,7 +128,8 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      await supabase
+      // Mark opponent queue row as matched
+      const { error: updateOpponentError } = await supabase
         .from('matchmaking_queue')
         .update({
           status: 'matched',
@@ -116,12 +137,51 @@ export async function POST(req: NextRequest) {
         })
         .eq('id', opponent.id);
 
+      if (updateOpponentError) {
+        console.error(updateOpponentError);
+        return NextResponse.json(
+          { error: 'Failed to update opponent queue' },
+          { status: 500 }
+        );
+      }
+
+      // Optional but cleaner: create/update current user's queue row too
+      const { error: insertCurrentQueueError } = await supabase
+        .from('matchmaking_queue')
+        .insert({
+          user_id: user.id,
+          sport,
+          elo: profile.elo,
+          status: 'matched',
+          match_id: match.id,
+        });
+
+      // If insert fails because row already exists, try updating instead
+      if (insertCurrentQueueError) {
+        const { error: updateCurrentQueueError } = await supabase
+          .from('matchmaking_queue')
+          .update({
+            status: 'matched',
+            match_id: match.id,
+          })
+          .eq('user_id', user.id);
+
+        if (updateCurrentQueueError) {
+          console.error(updateCurrentQueueError);
+          return NextResponse.json(
+            { error: 'Failed to update current user queue' },
+            { status: 500 }
+          );
+        }
+      }
+
       return NextResponse.json({
         status: 'matched',
         matchId: match.id,
       });
     }
 
+    // No opponent found: put this user into searching queue
     const { error: insertError } = await supabase
       .from('matchmaking_queue')
       .insert({
