@@ -3,67 +3,87 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const userId = String(body.userId || '').trim();
+    const { userId } = await req.json();
 
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    if (!userId) {
+    if (!userId || typeof userId !== 'string') {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
     }
 
-    if (user.id === userId) {
+    const cleanedUserId = userId.trim();
+
+    const supabase = await createClient();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    if (cleanedUserId === user.id) {
       return NextResponse.json({ error: 'You cannot add yourself' }, { status: 400 });
     }
 
-    const { data: targetProfile, error: targetError } = await supabase
+    const { data: targetUser, error: targetError } = await supabase
       .from('profiles')
       .select('id, username')
-      .eq('id', userId)
-      .single();
+      .eq('id', cleanedUserId)
+      .maybeSingle();
 
-    if (targetError || !targetProfile) {
+    if (targetError) {
+      console.error('Target user lookup error:', targetError);
+      return NextResponse.json({ error: 'Failed to find that user' }, { status: 500 });
+    }
+
+    if (!targetUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const { data: existingRows, error: existingError } = await supabase
+    const { data: existingFriend, error: existingFriendError } = await supabase
       .from('friends')
-      .select('id, requester_id, addressee_id, status')
+      .select('id, status, requester_id, addressee_id')
       .or(
-        `and(requester_id.eq.${user.id},addressee_id.eq.${userId}),and(requester_id.eq.${userId},addressee_id.eq.${user.id})`
-      );
+        `and(requester_id.eq.${user.id},addressee_id.eq.${cleanedUserId}),and(requester_id.eq.${cleanedUserId},addressee_id.eq.${user.id})`
+      )
+      .maybeSingle();
 
-    if (existingError) {
-      return NextResponse.json({ error: existingError.message }, { status: 400 });
+    if (existingFriendError) {
+      console.error('Existing friend lookup error:', existingFriendError);
+      return NextResponse.json({ error: 'Failed to check existing requests' }, { status: 500 });
     }
 
-    if (existingRows && existingRows.length > 0) {
-      return NextResponse.json({ error: 'Friend request already exists' }, { status: 400 });
+    if (existingFriend) {
+      if (existingFriend.status === 'accepted') {
+        return NextResponse.json({ error: 'You are already friends' }, { status: 400 });
+      }
+
+      if (existingFriend.status === 'pending') {
+        return NextResponse.json({ error: 'A friend request already exists' }, { status: 400 });
+      }
     }
 
     const { error: insertError } = await supabase.from('friends').insert({
       requester_id: user.id,
-      addressee_id: userId,
+      addressee_id: cleanedUserId,
       status: 'pending',
     });
 
     if (insertError) {
-      return NextResponse.json({ error: insertError.message }, { status: 400 });
+      console.error('Friend request insert error:', insertError);
+      return NextResponse.json(
+        { error: insertError.message || 'Failed to send request' },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({
       success: true,
-      username: targetProfile.username,
+      username: targetUser.username,
     });
   } catch (error) {
-    console.error('Friend request error:', error);
-    return NextResponse.json({ error: 'Failed to send friend request' }, { status: 500 });
+    console.error('Friend request route error:', error);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

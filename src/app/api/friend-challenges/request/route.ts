@@ -3,13 +3,19 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await req.json();
+    const { challengedId, sport, difficulty } = await req.json();
 
-    if (!userId || typeof userId !== 'string') {
-      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    if (!challengedId || typeof challengedId !== 'string') {
+      return NextResponse.json({ error: 'challengedId is required' }, { status: 400 });
     }
 
-    const cleanedUserId = userId.trim();
+    if (!sport || typeof sport !== 'string') {
+      return NextResponse.json({ error: 'sport is required' }, { status: 400 });
+    }
+
+    if (!difficulty || typeof difficulty !== 'string') {
+      return NextResponse.json({ error: 'difficulty is required' }, { status: 400 });
+    }
 
     const supabase = await createClient();
 
@@ -22,65 +28,69 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    if (cleanedUserId === user.id) {
-      return NextResponse.json({ error: 'You cannot add yourself' }, { status: 400 });
+    if (challengedId === user.id) {
+      return NextResponse.json({ error: 'You cannot challenge yourself' }, { status: 400 });
     }
 
-    const { data: targetUser, error: targetError } = await supabase
+    const { data: challengedUser, error: challengedUserError } = await supabase
       .from('profiles')
       .select('id, username')
-      .eq('id', cleanedUserId)
+      .eq('id', challengedId)
       .maybeSingle();
 
-    if (targetError) {
-      console.error('Target user lookup error:', targetError);
-      return NextResponse.json({ error: 'Failed to find that user' }, { status: 500 });
+    if (challengedUserError) {
+      console.error('Challenge target lookup error:', challengedUserError);
+      return NextResponse.json({ error: 'Failed to find challenged user' }, { status: 500 });
     }
 
-    if (!targetUser) {
+    if (!challengedUser) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const { data: existingFriend, error: existingFriendError } = await supabase
-      .from('friends')
-      .select('id, status, requester_id, addressee_id')
-      .or(
-        `and(requester_id.eq.${user.id},addressee_id.eq.${cleanedUserId}),and(requester_id.eq.${cleanedUserId},addressee_id.eq.${user.id})`
-      )
+    const { data: existingChallenge, error: existingChallengeError } = await supabase
+      .from('friend_challenges')
+      .select('id, status')
+      .eq('challenger_id', user.id)
+      .eq('challenged_id', challengedId)
+      .in('status', ['pending', 'accepted'])
       .maybeSingle();
 
-    if (existingFriendError) {
-      console.error('Existing friend lookup error:', existingFriendError);
-      return NextResponse.json({ error: 'Failed to check existing requests' }, { status: 500 });
+    if (existingChallengeError) {
+      console.error('Existing challenge lookup error:', existingChallengeError);
+      return NextResponse.json({ error: 'Failed to check existing challenges' }, { status: 500 });
     }
 
-    if (existingFriend) {
-      if (existingFriend.status === 'accepted') {
-        return NextResponse.json({ error: 'You are already friends' }, { status: 400 });
-      }
-
-      if (existingFriend.status === 'pending') {
-        return NextResponse.json({ error: 'A friend request already exists' }, { status: 400 });
-      }
+    if (existingChallenge) {
+      return NextResponse.json({ error: 'Challenge already exists' }, { status: 400 });
     }
 
-    const { error: insertError } = await supabase.from('friends').insert({
-      requester_id: user.id,
-      addressee_id: cleanedUserId,
-      status: 'pending',
-    });
+    const { data: insertedChallenge, error: insertError } = await supabase
+      .from('friend_challenges')
+      .insert({
+        challenger_id: user.id,
+        challenged_id: challengedId,
+        sport,
+        difficulty,
+        status: 'pending',
+      })
+      .select('id')
+      .single();
 
     if (insertError) {
-      console.error('Friend request insert error:', insertError);
-      return NextResponse.json({ error: insertError.message || 'Failed to send request' }, { status: 500 });
+      console.error('Challenge insert error:', insertError);
+      return NextResponse.json(
+        { error: insertError.message || 'Failed to send challenge' },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({
       success: true,
-      username: targetUser.username,
+      challengeId: insertedChallenge.id,
+      username: challengedUser.username,
     });
   } catch (error) {
-    console.error('Friend request route error:', error);
+    console.error('Friend challenge request route error:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
