@@ -43,6 +43,7 @@ export default function FriendsClient({
   const [sending, setSending] = useState(false);
   const [message, setMessage] = useState('');
   const [workingId, setWorkingId] = useState<string | null>(null);
+  const [challengingId, setChallengingId] = useState<string | null>(null);
 
   const handleSendRequest = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,6 +100,37 @@ export default function FriendsClient({
       setMessage('Failed to update request');
     } finally {
       setWorkingId(null);
+    }
+  };
+
+  const handleChallenge = async (friendId: string, friendUsername: string) => {
+    setChallengingId(friendId);
+    setMessage('');
+
+    try {
+      const res = await fetch('/api/friend-challenges/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          challengedId: friendId,
+          sport: 'nba',
+          difficulty: 'medium',
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setMessage(data.error || 'Failed to send challenge');
+        return;
+      }
+
+      setMessage(`Challenge sent to ${friendUsername}`);
+      router.refresh();
+    } catch {
+      setMessage('Failed to send challenge');
+    } finally {
+      setChallengingId(null);
     }
   };
 
@@ -197,13 +229,25 @@ export default function FriendsClient({
             {friends.map((row) => (
               <div
                 key={row.id}
-                className="bg-bk-black border border-bk-gray-light rounded-xl p-4"
+                className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
               >
-                <p className="font-bold text-bk-white">{row.friend?.username ?? 'Unknown user'}</p>
-                <p className="text-sm text-bk-gray-muted">Elo: {row.friend?.elo ?? '—'}</p>
-                <p className="text-xs text-bk-gray-muted break-all mt-1">
-                  {row.friend?.id ?? 'Unknown ID'}
-                </p>
+                <div>
+                  <p className="font-bold text-bk-white">{row.friend?.username ?? 'Unknown user'}</p>
+                  <p className="text-sm text-bk-gray-muted">Elo: {row.friend?.elo ?? '—'}</p>
+                  <p className="text-xs text-bk-gray-muted break-all mt-1">
+                    {row.friend?.id ?? 'Unknown ID'}
+                  </p>
+                </div>
+
+                {row.friend && (
+                  <button
+                    onClick={() => handleChallenge(row.friend!.id, row.friend!.username)}
+                    disabled={challengingId === row.friend?.id}
+                    className="px-4 py-2 rounded-lg bg-bk-gold text-bk-black font-bold hover:opacity-90 disabled:opacity-50"
+                  >
+                    {challengingId === row.friend.id ? 'Sending...' : 'Challenge'}
+                  </button>
+                )}
               </div>
             ))}
           </div>
