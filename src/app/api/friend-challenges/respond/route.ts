@@ -63,11 +63,41 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, removed: true });
     }
 
-    const { questionIds } = await getSharedQuestions({
-      sport: challenge.sport,
-      difficulty: challenge.difficulty,
-      count: 10,
-    });
+    let questionIds: string[] = [];
+
+    try {
+      const shared = await getSharedQuestions({
+        sport: challenge.sport,
+        difficulty: challenge.difficulty,
+        count: 10,
+      });
+
+      if (!shared || !Array.isArray(shared.questionIds)) {
+        return NextResponse.json(
+          { error: 'Question bank returned invalid data' },
+          { status: 500 }
+        );
+      }
+
+      questionIds = shared.questionIds;
+    } catch (error) {
+      console.error('getSharedQuestions failed:', error);
+
+      const message =
+        error instanceof Error ? error.message : 'Failed to load shared questions';
+
+      return NextResponse.json(
+        { error: message || 'Failed to load shared questions' },
+        { status: 400 }
+      );
+    }
+
+    if (questionIds.length !== 10) {
+      return NextResponse.json(
+        { error: `Need 10 shared questions, got ${questionIds.length}` },
+        { status: 400 }
+      );
+    }
 
     const { data: match, error: matchError } = await supabase
       .from('multiplayer_matches')
@@ -87,6 +117,7 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (matchError || !match) {
+      console.error('multiplayer_matches insert error:', matchError);
       return NextResponse.json(
         { error: matchError?.message || 'Failed to create match' },
         { status: 500 }
@@ -104,12 +135,17 @@ export async function POST(req: NextRequest) {
       .eq('status', 'pending');
 
     if (updateError) {
+      console.error('friend_challenges update error:', updateError);
       return NextResponse.json({ error: updateError.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, matchId: match.id });
   } catch (error) {
     console.error('friend challenge respond error', error);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+
+    const message =
+      error instanceof Error ? error.message : 'Server error';
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

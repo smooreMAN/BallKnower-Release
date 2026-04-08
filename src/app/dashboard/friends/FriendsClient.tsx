@@ -119,7 +119,8 @@ export default function FriendsClient({
       setMessage(`Friend request sent to ${data.username}`);
       setUserIdInput('');
       router.refresh();
-    } catch {
+    } catch (error) {
+      console.error('send friend request failed', error);
       setMessage('Failed to send request');
     } finally {
       setSending(false);
@@ -147,7 +148,8 @@ export default function FriendsClient({
       setLocalIncoming((prev) => prev.filter((req) => req.id !== requestId));
       setMessage(action === 'accepted' ? 'Friend request accepted' : 'Friend request declined');
       router.refresh();
-    } catch {
+    } catch (error) {
+      console.error('friend request response failed', error);
       setMessage('Failed to update request');
     } finally {
       setWorkingId(null);
@@ -183,7 +185,8 @@ export default function FriendsClient({
 
       setMessage(`Challenge sent to ${friendUsername}`);
       router.refresh();
-    } catch {
+    } catch (error) {
+      console.error('send challenge failed', error);
       setMessage('Failed to send challenge');
     } finally {
       setChallengingId(null);
@@ -226,7 +229,8 @@ export default function FriendsClient({
       }
 
       router.refresh();
-    } catch {
+    } catch (error) {
+      console.error('challenge response failed', error);
       setMessage('Failed to respond to challenge');
     } finally {
       setRespondingChallengeId(null);

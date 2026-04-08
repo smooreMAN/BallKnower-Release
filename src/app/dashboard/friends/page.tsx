@@ -35,6 +35,7 @@ export default async function FriendsPage() {
     .select('id, challenger_id, challenged_id, sport, difficulty, status, created_at, responded_at')
     .eq('challenged_id', user.id)
     .eq('status', 'pending')
+    .neq('challenger_id', user.id)
     .order('created_at', { ascending: false });
 
   const incomingIds = [...new Set((incomingRows ?? []).map((row) => row.requester_id))];
@@ -45,9 +46,11 @@ export default async function FriendsPage() {
         row.requester_id === user.id ? row.addressee_id : row.requester_id
       )
     ),
-  ];
+  ].filter((id) => id !== user.id);
 
-  const challengerIds = [...new Set((incomingChallengeRows ?? []).map((row) => row.challenger_id))];
+  const challengerIds = [
+    ...new Set((incomingChallengeRows ?? []).map((row) => row.challenger_id)),
+  ].filter((id) => id !== user.id);
 
   const allProfileIds = [...new Set([...incomingIds, ...acceptedFriendIds, ...challengerIds])];
 
@@ -81,12 +84,10 @@ export default async function FriendsPage() {
     })
     .filter((row) => row.friend !== null);
 
-  const incomingChallenges = (incomingChallengeRows ?? [])
-    .filter((row) => row.challenger_id !== user.id)
-    .map((row) => ({
-      ...row,
-      challenger: profileMap.get(row.challenger_id) ?? null,
-    }));
+  const incomingChallenges = (incomingChallengeRows ?? []).map((row) => ({
+    ...row,
+    challenger: profileMap.get(row.challenger_id) ?? null,
+  }));
 
   return (
     <FriendsClient
