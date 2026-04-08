@@ -22,6 +22,7 @@ export default function DashboardNav({ profile }: { profile: Profile | null }) {
     { href: '/dashboard', label: 'Home', emoji: '🏠' },
     { href: '/dashboard/play', label: 'Bot', emoji: '🤖' },
     { href: '/dashboard/matchmaking', label: 'Online', emoji: '⚔️' },
+    { href: '/dashboard/friends', label: 'Friends', emoji: '👥' },
     { href: '/dashboard/leaderboard', label: 'Leaderboard', emoji: '🏆' },
     { href: '/dashboard/profile', label: 'Profile', emoji: '👤' },
   ];
