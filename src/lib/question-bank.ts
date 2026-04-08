@@ -32,7 +32,7 @@ export async function getSharedQuestions(params: {
     throw new Error(`Failed to load questions: ${error.message}`);
   }
 
-  const shuffled = (cached ?? []).sort(() => Math.random() - 0.5);
+  const shuffled = [...(cached ?? [])].sort(() => Math.random() - 0.5);
   const picked = shuffled.slice(0, count) as QuestionRecord[];
 
   if (picked.length < count) {
@@ -43,12 +43,12 @@ export async function getSharedQuestions(params: {
 
   const questionIds = picked.map((q) => q.id);
 
-  try {
-    await supabase.rpc('increment_question_usage', {
-      question_ids: questionIds,
-    });
-  } catch {
-    // non-critical
+  const { error: rpcError } = await supabase.rpc('increment_question_usage', {
+    question_ids: questionIds,
+  });
+
+  if (rpcError) {
+    console.error('increment_question_usage failed:', rpcError.message);
   }
 
   return {
