@@ -203,33 +203,14 @@ export default function FriendsClient({
         ) : (
           <div className="space-y-3">
             {incoming.map((req) => (
-              <div
-                key={req.id}
-                className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-              >
+              <div key={req.id} className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex justify-between">
                 <div>
                   <p className="font-bold text-bk-white">{req.requester?.username ?? 'Unknown user'}</p>
                   <p className="text-sm text-bk-gray-muted">Elo: {req.requester?.elo ?? '—'}</p>
-                  <p className="text-xs text-bk-gray-muted break-all mt-1">
-                    {req.requester?.id ?? req.requester_id}
-                  </p>
                 </div>
-
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => handleRespond(req.id, 'accepted')}
-                    disabled={workingId === req.id}
-                    className="px-4 py-2 rounded-lg bg-green-600 text-white font-bold hover:opacity-90 disabled:opacity-50"
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={() => handleRespond(req.id, 'declined')}
-                    disabled={workingId === req.id}
-                    className="px-4 py-2 rounded-lg bg-red-600 text-white font-bold hover:opacity-90 disabled:opacity-50"
-                  >
-                    Decline
-                  </button>
+                  <button onClick={() => handleRespond(req.id, 'accepted')} className="bg-green-600 px-3 py-1 rounded">Accept</button>
+                  <button onClick={() => handleRespond(req.id, 'declined')} className="bg-red-600 px-3 py-1 rounded">Decline</button>
                 </div>
               </div>
             ))}
@@ -243,63 +224,36 @@ export default function FriendsClient({
         {incomingChallenges.length === 0 ? (
           <p className="text-bk-gray-muted">No incoming challenges.</p>
         ) : (
-          <div className="space-y-3">
-            {incomingChallenges.map((challenge) => (
-              <div
-                key={challenge.id}
-                className="bg-bk-black border border-bk-gray-light rounded-xl p-4"
-              >
-                <p className="font-bold text-bk-white">
-                  {challenge.challenger?.username ?? 'Unknown user'}
-                </p>
-                <p className="text-sm text-bk-gray-muted">
-                  Elo: {challenge.challenger?.elo ?? '—'}
-                </p>
-                <p className="text-sm text-bk-white mt-2">
-                  Sport: <span className="text-bk-gold uppercase">{challenge.sport}</span>
-                </p>
-                <p className="text-sm text-bk-gray-muted">
-                  Difficulty: {challenge.difficulty}
-                </p>
-              </div>
-            ))}
-          </div>
+          incomingChallenges.map((c) => (
+            <div key={c.id} className="bg-bk-black p-4 rounded">
+              <p>{c.challenger?.username}</p>
+              <p>{c.sport} - {c.difficulty}</p>
+            </div>
+          ))
         )}
       </div>
 
       <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-5">
         <h2 className="font-display text-2xl text-bk-white mb-4">YOUR FRIENDS</h2>
 
-        {friends.length === 0 ? (
-          <p className="text-bk-gray-muted">No friends yet.</p>
-        ) : (
-          <div className="space-y-3">
-            {friends.map((row) => (
-              <div
-                key={row.id}
-                className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
-              >
-                <div>
-                  <p className="font-bold text-bk-white">{row.friend?.username ?? 'Unknown user'}</p>
-                  <p className="text-sm text-bk-gray-muted">Elo: {row.friend?.elo ?? '—'}</p>
-                  <p className="text-xs text-bk-gray-muted break-all mt-1">
-                    {row.friend?.id ?? 'Unknown ID'}
-                  </p>
-                </div>
+        {friends.map((row) => (
+          <div key={row.id} className="bg-bk-black p-4 rounded flex justify-between">
+            <div>
+              <p>{row.friend?.username}</p>
+              <p>{row.friend?.elo}</p>
+            </div>
 
-                {row.friend && (
-                  <button
-                    onClick={() => handleChallenge(row.friend.id, row.friend.username)}
-                    disabled={challengingId === row.friend?.id}
-                    className="px-4 py-2 rounded-lg bg-bk-gold text-bk-black font-bold hover:opacity-90 disabled:opacity-50"
-                  >
-                    {challengingId === row.friend.id ? 'Sending...' : 'Challenge'}
-                  </button>
-                )}
-              </div>
-            ))}
+            {row.friend && (
+              <button
+                onClick={() => handleChallenge(row.friend!.id, row.friend!.username)}
+                disabled={challengingId === row.friend!.id}
+                className="bg-yellow-500 px-3 py-1 rounded"
+              >
+                Challenge
+              </button>
+            )}
           </div>
-        )}
+        ))}
       </div>
     </div>
   );
