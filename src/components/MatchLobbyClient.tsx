@@ -64,7 +64,10 @@ export default function MatchLobbyClient({
       if (!error && data) {
         setMatch(data as MatchRow);
 
-        if ((data.started_at || (data.player1_ready && data.player2_ready)) && !redirecting) {
+        if (
+          (data.started_at || (data.player1_ready && data.player2_ready)) &&
+          !redirecting
+        ) {
           setRedirecting(true);
           router.push(`/dashboard/match/${data.id}/play`);
         }
@@ -79,8 +82,14 @@ export default function MatchLobbyClient({
     setMessage('');
 
     try {
-      const res = await fetch(`/api/match/${match.id}/ready`, {
+      const res = await fetch('/api/match/ready', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          matchId: match.id,
+        }),
       });
 
       const data = await res.json();
@@ -90,16 +99,24 @@ export default function MatchLobbyClient({
         return;
       }
 
-      if (data.match) {
-        setMatch(data.match as MatchRow);
+      const { data: refreshedMatch, error } = await supabase
+        .from('multiplayer_matches')
+        .select(
+          'id, player1_id, player2_id, sport, difficulty, status, player1_ready, player2_ready, started_at, created_at'
+        )
+        .eq('id', match.id)
+        .single();
+
+      if (!error && refreshedMatch) {
+        setMatch(refreshedMatch as MatchRow);
 
         if (
-          (data.match.started_at ||
-            (data.match.player1_ready && data.match.player2_ready)) &&
+          (refreshedMatch.started_at ||
+            (refreshedMatch.player1_ready && refreshedMatch.player2_ready)) &&
           !redirecting
         ) {
           setRedirecting(true);
-          router.push(`/dashboard/match/${data.match.id}/play`);
+          router.push(`/dashboard/match/${refreshedMatch.id}/play`);
           return;
         }
       }
