@@ -1,7 +1,8 @@
 import rawNflQuestions from '@/data/nfl_trivia_1000.json';
+import rawNbaQuestions from '@/data/nba_questions_clean.json';
 import type { Difficulty, Question, Sport } from '@/types';
 
-type RawQuestion = {
+type RawNflQuestion = {
   id: number;
   difficulty: string;
   topic: string;
@@ -13,23 +14,38 @@ type RawQuestion = {
   source: string;
 };
 
+type RawNbaQuestion = {
+  id: number;
+  difficulty: string;
+  category: string;
+  question: string;
+  options: string[];
+  answer_index: number;
+};
+
 const OPTION_ORDER = ['A', 'B', 'C', 'D'] as const;
 
 export type StaticQuestion = Question & {
   topic?: string;
+  category?: string;
   explanation?: string;
   source?: string;
 };
 
 function normalizeDifficulty(value: string): Difficulty {
   const normalized = value.toLowerCase();
-  if (normalized === 'easy' || normalized === 'medium' || normalized === 'hard' || normalized === 'elite') {
+  if (
+    normalized === 'easy' ||
+    normalized === 'medium' ||
+    normalized === 'hard' ||
+    normalized === 'elite'
+  ) {
     return normalized;
   }
   return 'medium';
 }
 
-function mapRawQuestion(raw: RawQuestion): StaticQuestion {
+function mapRawNflQuestion(raw: RawNflQuestion): StaticQuestion {
   return {
     id: `nfl-${raw.id}`,
     sport: 'nfl',
@@ -45,12 +61,37 @@ function mapRawQuestion(raw: RawQuestion): StaticQuestion {
   };
 }
 
-export const NFL_STATIC_QUESTIONS: StaticQuestion[] = (rawNflQuestions as RawQuestion[]).map(mapRawQuestion);
+function mapRawNbaQuestion(raw: RawNbaQuestion): StaticQuestion {
+  return {
+    id: `nba-${raw.id}`,
+    sport: 'nba',
+    difficulty: normalizeDifficulty(raw.difficulty),
+    question: raw.question,
+    options: raw.options,
+    correct_index: raw.answer_index,
+    times_used: 0,
+    created_at: new Date(0).toISOString(),
+    category: raw.category,
+  };
+}
 
-export function getStaticQuestions(sport: Sport, difficulty: Difficulty, count: number): StaticQuestion[] {
-  if (sport !== 'nfl') return [];
+export const NFL_STATIC_QUESTIONS: StaticQuestion[] =
+  (rawNflQuestions as RawNflQuestion[]).map(mapRawNflQuestion);
 
-  const matching = NFL_STATIC_QUESTIONS.filter(
+export const NBA_STATIC_QUESTIONS: StaticQuestion[] =
+  (rawNbaQuestions as RawNbaQuestion[]).map(mapRawNbaQuestion);
+
+export const STATIC_QUESTIONS: StaticQuestion[] = [
+  ...NFL_STATIC_QUESTIONS,
+  ...NBA_STATIC_QUESTIONS,
+];
+
+export function getStaticQuestions(
+  sport: Sport,
+  difficulty: Difficulty,
+  count: number,
+): StaticQuestion[] {
+  const matching = STATIC_QUESTIONS.filter(
     (question) => question.sport === sport && question.difficulty === difficulty,
   );
 
@@ -58,9 +99,10 @@ export function getStaticQuestions(sport: Sport, difficulty: Difficulty, count: 
 }
 
 export function shuffle<T>(items: T[]): T[] {
-  for (let i = items.length - 1; i > 0; i -= 1) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
-    [items[i], items[j]] = [items[j], items[i]];
+    [copy[i], copy[j]] = [copy[j], copy[i]];
   }
-  return items;
+  return copy;
 }

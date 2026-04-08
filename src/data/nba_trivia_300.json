@@ -1,0 +1,3902 @@
+[
+  {
+    "id": 1,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Boston Celtics belong to which NBA conference?",
+    "options": [
+      "Pacific Division",
+      "Atlantic Division",
+      "Central Division",
+      "Eastern Conference"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 2,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Toronto Raptors belong to which NBA conference?",
+    "options": [
+      "Southwest Division",
+      "Western Conference",
+      "Eastern Conference",
+      "Pacific Division"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 3,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Milwaukee Bucks belong to which NBA conference?",
+    "options": [
+      "Southwest Division",
+      "Western Conference",
+      "Eastern Conference",
+      "Central Division"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 4,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Miami Heat belong to which NBA conference?",
+    "options": [
+      "Central Division",
+      "Western Conference",
+      "Southwest Division",
+      "Eastern Conference"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 5,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Philadelphia 76ers belong to which NBA conference?",
+    "options": [
+      "Eastern Conference",
+      "Atlantic Division",
+      "Southwest Division",
+      "Western Conference"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 6,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Chicago Bulls belong to which NBA conference?",
+    "options": [
+      "Atlantic Division",
+      "Eastern Conference",
+      "Pacific Division",
+      "Western Conference"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 7,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Atlanta Hawks belong to which NBA conference?",
+    "options": [
+      "Western Conference",
+      "Central Division",
+      "Atlantic Division",
+      "Eastern Conference"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 8,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Orlando Magic belong to which NBA conference?",
+    "options": [
+      "Eastern Conference",
+      "Western Conference",
+      "Pacific Division",
+      "Southwest Division"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 9,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Denver Nuggets belong to which NBA conference?",
+    "options": [
+      "Western Conference",
+      "Central Division",
+      "Pacific Division",
+      "Southwest Division"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 10,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Los Angeles Lakers belong to which NBA conference?",
+    "options": [
+      "Southwest Division",
+      "Pacific Division",
+      "Western Conference",
+      "Atlantic Division"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 11,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Golden State Warriors belong to which NBA conference?",
+    "options": [
+      "Central Division",
+      "Western Conference",
+      "Southwest Division",
+      "Atlantic Division"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 12,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Phoenix Suns belong to which NBA conference?",
+    "options": [
+      "Southwest Division",
+      "Eastern Conference",
+      "Western Conference",
+      "Central Division"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 13,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Houston Rockets belong to which NBA conference?",
+    "options": [
+      "Pacific Division",
+      "Central Division",
+      "Eastern Conference",
+      "Western Conference"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 14,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The San Antonio Spurs belong to which NBA conference?",
+    "options": [
+      "Western Conference",
+      "Pacific Division",
+      "Southwest Division",
+      "Central Division"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 15,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "The Oklahoma City Thunder belong to which NBA conference?",
+    "options": [
+      "Eastern Conference",
+      "Western Conference",
+      "Southwest Division",
+      "Atlantic Division"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 16,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Toronto?",
+    "options": [
+      "Toronto Raptors",
+      "Brooklyn Nets",
+      "Phoenix Suns",
+      "Sacramento Kings"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 17,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Boston?",
+    "options": [
+      "Orlando Magic",
+      "Atlanta Hawks",
+      "Boston Celtics",
+      "Phoenix Suns"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 18,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Miami?",
+    "options": [
+      "Chicago Bulls",
+      "Golden State Warriors",
+      "Charlotte Hornets",
+      "Miami Heat"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 19,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Houston?",
+    "options": [
+      "Milwaukee Bucks",
+      "Houston Rockets",
+      "Sacramento Kings",
+      "Cleveland Cavaliers"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 20,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Denver?",
+    "options": [
+      "New Orleans Pelicans",
+      "Miami Heat",
+      "Minnesota Timberwolves",
+      "Denver Nuggets"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 21,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Phoenix?",
+    "options": [
+      "Phoenix Suns",
+      "Oklahoma City Thunder",
+      "Indiana Pacers",
+      "Miami Heat"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 22,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Chicago?",
+    "options": [
+      "Phoenix Suns",
+      "Washington Wizards",
+      "Chicago Bulls",
+      "Miami Heat"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 23,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Orlando?",
+    "options": [
+      "Toronto Raptors",
+      "Orlando Magic",
+      "Chicago Bulls",
+      "New York Knicks"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 24,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Portland?",
+    "options": [
+      "Portland Trail Blazers",
+      "Denver Nuggets",
+      "Memphis Grizzlies",
+      "Boston Celtics"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 25,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Sacramento?",
+    "options": [
+      "Sacramento Kings",
+      "Boston Celtics",
+      "Orlando Magic",
+      "Toronto Raptors"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 26,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Atlanta?",
+    "options": [
+      "New Orleans Pelicans",
+      "Phoenix Suns",
+      "Toronto Raptors",
+      "Atlanta Hawks"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 27,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Milwaukee?",
+    "options": [
+      "Orlando Magic",
+      "Philadelphia 76ers",
+      "Milwaukee Bucks",
+      "Minnesota Timberwolves"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 28,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in Dallas?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Washington Wizards",
+      "Dallas Mavericks",
+      "New York Knicks"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 29,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in San Antonio?",
+    "options": [
+      "Utah Jazz",
+      "Philadelphia 76ers",
+      "Brooklyn Nets",
+      "San Antonio Spurs"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 30,
+    "difficulty": "easy",
+    "category": "teams",
+    "question": "Which NBA team plays in New York?",
+    "options": [
+      "Portland Trail Blazers",
+      "Toronto Raptors",
+      "Miami Heat",
+      "New York Knicks"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 31,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'King James'?",
+    "options": [
+      "LeBron James",
+      "Allen Iverson",
+      "Stephen Curry",
+      "Chris Paul"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 32,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Black Mamba'?",
+    "options": [
+      "Kobe Bryant",
+      "Giannis Antetokounmpo",
+      "Damian Lillard",
+      "Karl Malone"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 33,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Greek Freak'?",
+    "options": [
+      "Nikola Jokic",
+      "Kobe Bryant",
+      "Giannis Antetokounmpo",
+      "Damian Lillard"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 34,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Answer'?",
+    "options": [
+      "Damian Lillard",
+      "Allen Iverson",
+      "Nikola Jokic",
+      "Gary Payton"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 35,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Beard'?",
+    "options": [
+      "Kawhi Leonard",
+      "James Harden",
+      "Rudy Gobert",
+      "Allen Iverson"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 36,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Joker'?",
+    "options": [
+      "James Harden",
+      "Karl Malone",
+      "Rudy Gobert",
+      "Nikola Jokic"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 37,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Klaw'?",
+    "options": [
+      "Giannis Antetokounmpo",
+      "Rudy Gobert",
+      "Kawhi Leonard",
+      "Nikola Jokic"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 38,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'CP3'?",
+    "options": [
+      "Allen Iverson",
+      "Stephen Curry",
+      "Chris Paul",
+      "Tim Duncan"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 39,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'Dame Time'?",
+    "options": [
+      "Damian Lillard",
+      "Allen Iverson",
+      "Karl Malone",
+      "Gary Payton"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 40,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Stifle Tower'?",
+    "options": [
+      "LeBron James",
+      "Gary Payton",
+      "Nikola Jokic",
+      "Rudy Gobert"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 41,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'Chef Curry'?",
+    "options": [
+      "Stephen Curry",
+      "Gary Payton",
+      "James Harden",
+      "Allen Iverson"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 42,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Big Fundamental'?",
+    "options": [
+      "Kobe Bryant",
+      "Nikola Jokic",
+      "Allen Iverson",
+      "Tim Duncan"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 43,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Glove'?",
+    "options": [
+      "Allen Iverson",
+      "Gary Payton",
+      "Nikola Jokic",
+      "Donovan Mitchell"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 44,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'The Mailman'?",
+    "options": [
+      "Chris Paul",
+      "Nikola Jokic",
+      "Stephen Curry",
+      "Karl Malone"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 45,
+    "difficulty": "easy",
+    "category": "players",
+    "question": "Which player is nicknamed 'Spida'?",
+    "options": [
+      "Gary Payton",
+      "Donovan Mitchell",
+      "Tim Duncan",
+      "Kawhi Leonard"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 46,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2006?",
+    "options": [
+      "Boston Celtics",
+      "Dallas Mavericks",
+      "Milwaukee Bucks",
+      "Miami Heat"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 47,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2008?",
+    "options": [
+      "Chicago Bulls",
+      "Dallas Mavericks",
+      "Boston Celtics",
+      "Golden State Warriors"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 48,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2010?",
+    "options": [
+      "Detroit Pistons",
+      "Los Angeles Lakers",
+      "Houston Rockets",
+      "Toronto Raptors"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 49,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2011?",
+    "options": [
+      "Toronto Raptors",
+      "Golden State Warriors",
+      "Dallas Mavericks",
+      "Denver Nuggets"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 50,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2012?",
+    "options": [
+      "Denver Nuggets",
+      "Miami Heat",
+      "Chicago Bulls",
+      "Detroit Pistons"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 51,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2013?",
+    "options": [
+      "Detroit Pistons",
+      "Miami Heat",
+      "Los Angeles Lakers",
+      "San Antonio Spurs"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 52,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2014?",
+    "options": [
+      "Toronto Raptors",
+      "Boston Celtics",
+      "San Antonio Spurs",
+      "Miami Heat"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 53,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2015?",
+    "options": [
+      "Denver Nuggets",
+      "Golden State Warriors",
+      "Miami Heat",
+      "Dallas Mavericks"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 54,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2016?",
+    "options": [
+      "Houston Rockets",
+      "Denver Nuggets",
+      "Golden State Warriors",
+      "Cleveland Cavaliers"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 55,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2018?",
+    "options": [
+      "Detroit Pistons",
+      "Houston Rockets",
+      "Golden State Warriors",
+      "Toronto Raptors"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 56,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2019?",
+    "options": [
+      "Golden State Warriors",
+      "Chicago Bulls",
+      "Cleveland Cavaliers",
+      "Toronto Raptors"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 57,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2020?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Detroit Pistons",
+      "Los Angeles Lakers",
+      "Chicago Bulls"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 58,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2021?",
+    "options": [
+      "Detroit Pistons",
+      "Milwaukee Bucks",
+      "Chicago Bulls",
+      "Golden State Warriors"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 59,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2022?",
+    "options": [
+      "Golden State Warriors",
+      "Miami Heat",
+      "Dallas Mavericks",
+      "Chicago Bulls"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 60,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2023?",
+    "options": [
+      "Dallas Mavericks",
+      "Denver Nuggets",
+      "Golden State Warriors",
+      "Toronto Raptors"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 61,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2024?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Boston Celtics",
+      "Los Angeles Lakers",
+      "Denver Nuggets"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 62,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2004?",
+    "options": [
+      "Houston Rockets",
+      "Detroit Pistons",
+      "Dallas Mavericks",
+      "Denver Nuggets"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 63,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2005?",
+    "options": [
+      "Los Angeles Lakers",
+      "Milwaukee Bucks",
+      "Dallas Mavericks",
+      "San Antonio Spurs"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 64,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2007?",
+    "options": [
+      "Houston Rockets",
+      "San Antonio Spurs",
+      "Boston Celtics",
+      "Chicago Bulls"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 65,
+    "difficulty": "easy",
+    "category": "finals",
+    "question": "Who won the NBA championship in 2009?",
+    "options": [
+      "San Antonio Spurs",
+      "Los Angeles Lakers",
+      "Golden State Warriors",
+      "Chicago Bulls"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 66,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2011?",
+    "options": [
+      "Derrick Rose",
+      "Joel Embiid",
+      "LeBron James",
+      "Kobe Bryant"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 67,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2015?",
+    "options": [
+      "LeBron James",
+      "Stephen Curry",
+      "Kevin Durant",
+      "Russell Westbrook"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 68,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2016?",
+    "options": [
+      "Steve Nash",
+      "Stephen Curry",
+      "Kevin Durant",
+      "Joel Embiid"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 69,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2018?",
+    "options": [
+      "Stephen Curry",
+      "James Harden",
+      "Giannis Antetokounmpo",
+      "Kevin Durant"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 70,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2019?",
+    "options": [
+      "Joel Embiid",
+      "LeBron James",
+      "Dirk Nowitzki",
+      "Giannis Antetokounmpo"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 71,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2020?",
+    "options": [
+      "Giannis Antetokounmpo",
+      "Kobe Bryant",
+      "Derrick Rose",
+      "Steve Nash"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 72,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2021?",
+    "options": [
+      "Nikola Jokic",
+      "Stephen Curry",
+      "Kobe Bryant",
+      "James Harden"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 73,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2022?",
+    "options": [
+      "Derrick Rose",
+      "Nikola Jokic",
+      "Steve Nash",
+      "Dirk Nowitzki"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 74,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2023?",
+    "options": [
+      "Derrick Rose",
+      "Dirk Nowitzki",
+      "Joel Embiid",
+      "Steve Nash"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 75,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won the NBA MVP award in 2024?",
+    "options": [
+      "Derrick Rose",
+      "Dirk Nowitzki",
+      "Nikola Jokic",
+      "Joel Embiid"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 76,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Defensive Player of the Year in 2020?",
+    "options": [
+      "Draymond Green",
+      "Rudy Gobert",
+      "Giannis Antetokounmpo",
+      "Marcus Smart"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 77,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Defensive Player of the Year in 2022?",
+    "options": [
+      "Joakim Noah",
+      "Kawhi Leonard",
+      "Draymond Green",
+      "Marcus Smart"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 78,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Defensive Player of the Year in 2023?",
+    "options": [
+      "Kawhi Leonard",
+      "Jaren Jackson Jr.",
+      "Draymond Green",
+      "Marcus Smart"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 79,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Defensive Player of the Year in 2024?",
+    "options": [
+      "Draymond Green",
+      "Joakim Noah",
+      "Rudy Gobert",
+      "Jaren Jackson Jr."
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 80,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Rookie of the Year in 2020?",
+    "options": [
+      "Ben Simmons",
+      "Andrew Wiggins",
+      "Ja Morant",
+      "Luka Doncic"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 81,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Rookie of the Year in 2021?",
+    "options": [
+      "LaMelo Ball",
+      "Karl-Anthony Towns",
+      "Scottie Barnes",
+      "Ja Morant"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 82,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Rookie of the Year in 2022?",
+    "options": [
+      "Luka Doncic",
+      "Ja Morant",
+      "Scottie Barnes",
+      "Victor Wembanyama"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 83,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Most Improved Player in 2022?",
+    "options": [
+      "Victor Oladipo",
+      "Tyrese Maxey",
+      "Ja Morant",
+      "Giannis Antetokounmpo"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 84,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Most Improved Player in 2023?",
+    "options": [
+      "Brandon Ingram",
+      "Lauri Markkanen",
+      "Jimmy Butler",
+      "CJ McCollum"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 85,
+    "difficulty": "easy",
+    "category": "awards",
+    "question": "Who won NBA Most Improved Player in 2024?",
+    "options": [
+      "Tyrese Maxey",
+      "Jimmy Butler",
+      "CJ McCollum",
+      "Brandon Ingram"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 86,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2003 NBA Draft?",
+    "options": [
+      "Anthony Edwards",
+      "Markelle Fultz",
+      "LeBron James",
+      "Andrew Bogut"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 87,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2004 NBA Draft?",
+    "options": [
+      "Anthony Davis",
+      "Andrea Bargnani",
+      "Yao Ming",
+      "Dwight Howard"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 88,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2008 NBA Draft?",
+    "options": [
+      "Karl-Anthony Towns",
+      "Dwight Howard",
+      "Greg Oden",
+      "Derrick Rose"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 89,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2010 NBA Draft?",
+    "options": [
+      "Tim Duncan",
+      "John Wall",
+      "Derrick Rose",
+      "Yao Ming"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 90,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2012 NBA Draft?",
+    "options": [
+      "Andrew Wiggins",
+      "Andrew Bogut",
+      "Anthony Davis",
+      "Anthony Bennett"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 91,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2015 NBA Draft?",
+    "options": [
+      "Andrew Bogut",
+      "Elton Brand",
+      "Zaccharie Risacher",
+      "Karl-Anthony Towns"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 92,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2018 NBA Draft?",
+    "options": [
+      "Blake Griffin",
+      "Michael Olowokandi",
+      "Karl-Anthony Towns",
+      "Deandre Ayton"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 93,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2019 NBA Draft?",
+    "options": [
+      "Zion Williamson",
+      "Elton Brand",
+      "Dwight Howard",
+      "Markelle Fultz"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 94,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2021 NBA Draft?",
+    "options": [
+      "Greg Oden",
+      "Paolo Banchero",
+      "Cade Cunningham",
+      "Anthony Edwards"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 95,
+    "difficulty": "easy",
+    "category": "draft",
+    "question": "Who was the No. 1 overall pick in the 2023 NBA Draft?",
+    "options": [
+      "Ben Simmons",
+      "Markelle Fultz",
+      "Victor Wembanyama",
+      "Anthony Edwards"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 96,
+    "difficulty": "easy",
+    "category": "records",
+    "question": "Who scored 100 points in a single NBA game?",
+    "options": [
+      "LeBron James",
+      "Wilt Chamberlain",
+      "Michael Jordan",
+      "Kobe Bryant"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 97,
+    "difficulty": "easy",
+    "category": "records",
+    "question": "Who is the NBA's all-time leader in career points?",
+    "options": [
+      "Kobe Bryant",
+      "Karl Malone",
+      "LeBron James",
+      "Kareem Abdul-Jabbar"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 98,
+    "difficulty": "easy",
+    "category": "records",
+    "question": "Who has the most career triple-doubles in NBA history?",
+    "options": [
+      "Magic Johnson",
+      "Oscar Robertson",
+      "Nikola Jokic",
+      "Russell Westbrook"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 99,
+    "difficulty": "easy",
+    "category": "records",
+    "question": "Which player is the NBA's all-time leader in career assists?",
+    "options": [
+      "Magic Johnson",
+      "Jason Kidd",
+      "Chris Paul",
+      "John Stockton"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 100,
+    "difficulty": "easy",
+    "category": "records",
+    "question": "Which franchise has won the most NBA championships?",
+    "options": [
+      "Los Angeles Lakers",
+      "Golden State Warriors",
+      "Chicago Bulls",
+      "Boston Celtics"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 101,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Boston Celtics are part of which NBA division?",
+    "options": [
+      "Southwest Division",
+      "Atlantic Division",
+      "Eastern Conference",
+      "Southeast Division"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 102,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Brooklyn Nets are part of which NBA division?",
+    "options": [
+      "Pacific Division",
+      "Southwest Division",
+      "Central Division",
+      "Atlantic Division"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 103,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The New York Knicks are part of which NBA division?",
+    "options": [
+      "Pacific Division",
+      "Eastern Conference",
+      "Atlantic Division",
+      "Western Conference"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 104,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Philadelphia 76ers are part of which NBA division?",
+    "options": [
+      "Atlantic Division",
+      "Western Conference",
+      "Eastern Conference",
+      "Southeast Division"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 105,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Toronto Raptors are part of which NBA division?",
+    "options": [
+      "Atlantic Division",
+      "Pacific Division",
+      "Western Conference",
+      "Central Division"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 106,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Chicago Bulls are part of which NBA division?",
+    "options": [
+      "Southwest Division",
+      "Atlantic Division",
+      "Central Division",
+      "Western Conference"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 107,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Cleveland Cavaliers are part of which NBA division?",
+    "options": [
+      "Western Conference",
+      "Eastern Conference",
+      "Central Division",
+      "Northwest Division"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 108,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Indiana Pacers are part of which NBA division?",
+    "options": [
+      "Atlantic Division",
+      "Northwest Division",
+      "Pacific Division",
+      "Central Division"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 109,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Milwaukee Bucks are part of which NBA division?",
+    "options": [
+      "Central Division",
+      "Northwest Division",
+      "Eastern Conference",
+      "Pacific Division"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 110,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Atlanta Hawks are part of which NBA division?",
+    "options": [
+      "Atlantic Division",
+      "Southeast Division",
+      "Southwest Division",
+      "Pacific Division"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 111,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Miami Heat are part of which NBA division?",
+    "options": [
+      "Atlantic Division",
+      "Pacific Division",
+      "Southeast Division",
+      "Northwest Division"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 112,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Orlando Magic are part of which NBA division?",
+    "options": [
+      "Central Division",
+      "Pacific Division",
+      "Southeast Division",
+      "Northwest Division"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 113,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Washington Wizards are part of which NBA division?",
+    "options": [
+      "Southwest Division",
+      "Southeast Division",
+      "Central Division",
+      "Eastern Conference"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 114,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Denver Nuggets are part of which NBA division?",
+    "options": [
+      "Western Conference",
+      "Southwest Division",
+      "Northwest Division",
+      "Eastern Conference"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 115,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Minnesota Timberwolves are part of which NBA division?",
+    "options": [
+      "Central Division",
+      "Pacific Division",
+      "Northwest Division",
+      "Eastern Conference"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 116,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Oklahoma City Thunder are part of which NBA division?",
+    "options": [
+      "Pacific Division",
+      "Northwest Division",
+      "Atlantic Division",
+      "Eastern Conference"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 117,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Utah Jazz are part of which NBA division?",
+    "options": [
+      "Western Conference",
+      "Pacific Division",
+      "Northwest Division",
+      "Southeast Division"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 118,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Golden State Warriors are part of which NBA division?",
+    "options": [
+      "Atlantic Division",
+      "Southeast Division",
+      "Pacific Division",
+      "Eastern Conference"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 119,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Los Angeles Lakers are part of which NBA division?",
+    "options": [
+      "Southeast Division",
+      "Pacific Division",
+      "Eastern Conference",
+      "Atlantic Division"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 120,
+    "difficulty": "medium",
+    "category": "teams",
+    "question": "The Phoenix Suns are part of which NBA division?",
+    "options": [
+      "Southwest Division",
+      "Western Conference",
+      "Northwest Division",
+      "Pacific Division"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 121,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Los Angeles Lakers defeat in the 2000 NBA Finals?",
+    "options": [
+      "Portland Trail Blazers",
+      "New Jersey Nets",
+      "Orlando Magic",
+      "Indiana Pacers"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 122,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Los Angeles Lakers defeat in the 2001 NBA Finals?",
+    "options": [
+      "Philadelphia 76ers",
+      "Orlando Magic",
+      "Indiana Pacers",
+      "Golden State Warriors"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 123,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the San Antonio Spurs defeat in the 2003 NBA Finals?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Utah Jazz",
+      "New Jersey Nets",
+      "Boston Celtics"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 124,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Detroit Pistons defeat in the 2004 NBA Finals?",
+    "options": [
+      "New York Knicks",
+      "Los Angeles Lakers",
+      "Indiana Pacers",
+      "Portland Trail Blazers"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 125,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the San Antonio Spurs defeat in the 2005 NBA Finals?",
+    "options": [
+      "San Antonio Spurs",
+      "Los Angeles Lakers",
+      "Detroit Pistons",
+      "New Jersey Nets"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 126,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Miami Heat defeat in the 2006 NBA Finals?",
+    "options": [
+      "Dallas Mavericks",
+      "Orlando Magic",
+      "Miami Heat",
+      "Detroit Pistons"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 127,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the San Antonio Spurs defeat in the 2007 NBA Finals?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Boston Celtics",
+      "Indiana Pacers",
+      "Orlando Magic"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 128,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Boston Celtics defeat in the 2008 NBA Finals?",
+    "options": [
+      "Dallas Mavericks",
+      "Utah Jazz",
+      "Los Angeles Lakers",
+      "Orlando Magic"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 129,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Los Angeles Lakers defeat in the 2009 NBA Finals?",
+    "options": [
+      "Orlando Magic",
+      "San Antonio Spurs",
+      "New Jersey Nets",
+      "Golden State Warriors"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 130,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Los Angeles Lakers defeat in the 2010 NBA Finals?",
+    "options": [
+      "Phoenix Suns",
+      "Miami Heat",
+      "Boston Celtics",
+      "Oklahoma City Thunder"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 131,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Dallas Mavericks defeat in the 2011 NBA Finals?",
+    "options": [
+      "Detroit Pistons",
+      "Philadelphia 76ers",
+      "Seattle SuperSonics",
+      "Miami Heat"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 132,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Miami Heat defeat in the 2012 NBA Finals?",
+    "options": [
+      "Philadelphia 76ers",
+      "Cleveland Cavaliers",
+      "Oklahoma City Thunder",
+      "Dallas Mavericks"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 133,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Miami Heat defeat in the 2013 NBA Finals?",
+    "options": [
+      "San Antonio Spurs",
+      "Boston Celtics",
+      "Dallas Mavericks",
+      "Cleveland Cavaliers"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 134,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Golden State Warriors defeat in the 2015 NBA Finals?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Detroit Pistons",
+      "Indiana Pacers",
+      "Portland Trail Blazers"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 135,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Cleveland Cavaliers defeat in the 2016 NBA Finals?",
+    "options": [
+      "Portland Trail Blazers",
+      "Orlando Magic",
+      "Golden State Warriors",
+      "Utah Jazz"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 136,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Toronto Raptors defeat in the 2019 NBA Finals?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Utah Jazz",
+      "Golden State Warriors",
+      "Miami Heat"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 137,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Los Angeles Lakers defeat in the 2020 NBA Finals?",
+    "options": [
+      "Miami Heat",
+      "Portland Trail Blazers",
+      "Boston Celtics",
+      "Dallas Mavericks"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 138,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Milwaukee Bucks defeat in the 2021 NBA Finals?",
+    "options": [
+      "New York Knicks",
+      "Phoenix Suns",
+      "Los Angeles Lakers",
+      "Indiana Pacers"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 139,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Golden State Warriors defeat in the 2022 NBA Finals?",
+    "options": [
+      "Phoenix Suns",
+      "Boston Celtics",
+      "Indiana Pacers",
+      "New York Knicks"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 140,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "Which team did the Boston Celtics defeat in the 2024 NBA Finals?",
+    "options": [
+      "Oklahoma City Thunder",
+      "Phoenix Suns",
+      "Philadelphia 76ers",
+      "Dallas Mavericks"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 141,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2004?",
+    "options": [
+      "Chauncey Billups",
+      "Kobe Bryant",
+      "Isiah Thomas",
+      "Tony Parker"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 142,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2005?",
+    "options": [
+      "Andre Iguodala",
+      "Stephen Curry",
+      "Hakeem Olajuwon",
+      "Tim Duncan"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 143,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2006?",
+    "options": [
+      "Stephen Curry",
+      "Kawhi Leonard",
+      "Dwyane Wade",
+      "Chauncey Billups"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 144,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2007?",
+    "options": [
+      "Tony Parker",
+      "Nikola Jokic",
+      "Joe Dumars",
+      "Kobe Bryant"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 145,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2008?",
+    "options": [
+      "Stephen Curry",
+      "Paul Pierce",
+      "Giannis Antetokounmpo",
+      "Dwyane Wade"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 146,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2009?",
+    "options": [
+      "Joe Dumars",
+      "Andre Iguodala",
+      "Paul Pierce",
+      "Kobe Bryant"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 147,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2010?",
+    "options": [
+      "Michael Jordan",
+      "Giannis Antetokounmpo",
+      "Kobe Bryant",
+      "Andre Iguodala"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 148,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2011?",
+    "options": [
+      "Giannis Antetokounmpo",
+      "LeBron James",
+      "Dwyane Wade",
+      "Dirk Nowitzki"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 149,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2014?",
+    "options": [
+      "Dirk Nowitzki",
+      "LeBron James",
+      "Kawhi Leonard",
+      "Andre Iguodala"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 150,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2015?",
+    "options": [
+      "Michael Jordan",
+      "Stephen Curry",
+      "Andre Iguodala",
+      "Chauncey Billups"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 151,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2016?",
+    "options": [
+      "LeBron James",
+      "Dwyane Wade",
+      "Kevin Durant",
+      "Chauncey Billups"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 152,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2019?",
+    "options": [
+      "Kawhi Leonard",
+      "Giannis Antetokounmpo",
+      "Shaquille O'Neal",
+      "Hakeem Olajuwon"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 153,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2020?",
+    "options": [
+      "Isiah Thomas",
+      "Tim Duncan",
+      "Kawhi Leonard",
+      "LeBron James"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 154,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2022?",
+    "options": [
+      "Kawhi Leonard",
+      "Tim Duncan",
+      "Isiah Thomas",
+      "Stephen Curry"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 155,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Who won NBA Finals MVP in 2024?",
+    "options": [
+      "Kobe Bryant",
+      "Andre Iguodala",
+      "Hakeem Olajuwon",
+      "Jaylen Brown"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 156,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Derrick Rose play for when he won NBA MVP in 2011?",
+    "options": [
+      "Seattle SuperSonics",
+      "Miami Heat",
+      "Orlando Magic",
+      "Chicago Bulls"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 157,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Kevin Durant play for when he won NBA MVP in 2014?",
+    "options": [
+      "San Antonio Spurs",
+      "Los Angeles Lakers",
+      "Oklahoma City Thunder",
+      "Sacramento Kings"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 158,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did James Harden play for when he won NBA MVP in 2018?",
+    "options": [
+      "Chicago Bulls",
+      "Oklahoma City Thunder",
+      "Houston Rockets",
+      "Los Angeles Lakers"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 159,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Giannis Antetokounmpo play for when he won NBA MVP in 2019?",
+    "options": [
+      "Dallas Mavericks",
+      "Phoenix Suns",
+      "Milwaukee Bucks",
+      "Golden State Warriors"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 160,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Nikola Jokic play for when he won NBA MVP in 2021?",
+    "options": [
+      "Miami Heat",
+      "New Jersey Nets",
+      "Denver Nuggets",
+      "Sacramento Kings"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 161,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Draymond Green play for when he won NBA Defensive Player of the Year in 2017?",
+    "options": [
+      "New Jersey Nets",
+      "Sacramento Kings",
+      "Golden State Warriors",
+      "Brooklyn Nets"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 162,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Giannis Antetokounmpo play for when he won NBA Defensive Player of the Year in 2020?",
+    "options": [
+      "Dallas Mavericks",
+      "New York Knicks",
+      "Seattle SuperSonics",
+      "Milwaukee Bucks"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 163,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Marcus Smart play for when he won NBA Defensive Player of the Year in 2022?",
+    "options": [
+      "Boston Celtics",
+      "Los Angeles Lakers",
+      "Orlando Magic",
+      "Chicago Bulls"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 164,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Jaren Jackson Jr. play for when he won NBA Defensive Player of the Year in 2023?",
+    "options": [
+      "Golden State Warriors",
+      "Memphis Grizzlies",
+      "New York Knicks",
+      "Minnesota Timberwolves"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 165,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Luka Doncic play for when he won NBA Rookie of the Year in 2019?",
+    "options": [
+      "Washington Wizards",
+      "Brooklyn Nets",
+      "Toronto Raptors",
+      "Dallas Mavericks"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 166,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did LaMelo Ball play for when he won NBA Rookie of the Year in 2021?",
+    "options": [
+      "Oklahoma City Thunder",
+      "Dallas Mavericks",
+      "Charlotte Hornets",
+      "New Orleans Pelicans"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 167,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Victor Wembanyama play for when he won NBA Rookie of the Year in 2024?",
+    "options": [
+      "Utah Jazz",
+      "San Antonio Spurs",
+      "Boston Celtics",
+      "Charlotte Hornets"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 168,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Pascal Siakam play for when he won NBA Most Improved Player in 2019?",
+    "options": [
+      "LA Clippers",
+      "Sacramento Kings",
+      "Seattle SuperSonics",
+      "Toronto Raptors"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 169,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Julius Randle play for when he won NBA Most Improved Player in 2021?",
+    "options": [
+      "Houston Rockets",
+      "Charlotte Hornets",
+      "New York Knicks",
+      "Minnesota Timberwolves"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 170,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "Which team did Tyrese Maxey play for when he won NBA Most Improved Player in 2024?",
+    "options": [
+      "New Jersey Nets",
+      "LA Clippers",
+      "Philadelphia 76ers",
+      "Charlotte Hornets"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 171,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Elton Brand with the No. 1 overall pick in the 1999 NBA Draft?",
+    "options": [
+      "Golden State Warriors",
+      "New York Knicks",
+      "Chicago Bulls",
+      "Milwaukee Bucks"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 172,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Yao Ming with the No. 1 overall pick in the 2002 NBA Draft?",
+    "options": [
+      "Washington Wizards",
+      "Los Angeles Lakers",
+      "Houston Rockets",
+      "Denver Nuggets"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 173,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected LeBron James with the No. 1 overall pick in the 2003 NBA Draft?",
+    "options": [
+      "Golden State Warriors",
+      "Cleveland Cavaliers",
+      "Denver Nuggets",
+      "Washington Wizards"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 174,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Dwight Howard with the No. 1 overall pick in the 2004 NBA Draft?",
+    "options": [
+      "Orlando Magic",
+      "Milwaukee Bucks",
+      "Dallas Mavericks",
+      "Memphis Grizzlies"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 175,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Andrea Bargnani with the No. 1 overall pick in the 2006 NBA Draft?",
+    "options": [
+      "Sacramento Kings",
+      "Miami Heat",
+      "Toronto Raptors",
+      "Milwaukee Bucks"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 176,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Derrick Rose with the No. 1 overall pick in the 2008 NBA Draft?",
+    "options": [
+      "Indiana Pacers",
+      "Chicago Bulls",
+      "Toronto Raptors",
+      "Cleveland Cavaliers"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 177,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Kyrie Irving with the No. 1 overall pick in the 2011 NBA Draft?",
+    "options": [
+      "Charlotte Hornets",
+      "Orlando Magic",
+      "Cleveland Cavaliers",
+      "New York Knicks"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 178,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Andrew Wiggins with the No. 1 overall pick in the 2014 NBA Draft?",
+    "options": [
+      "LA Clippers",
+      "Houston Rockets",
+      "Cleveland Cavaliers",
+      "Philadelphia 76ers"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 179,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Deandre Ayton with the No. 1 overall pick in the 2018 NBA Draft?",
+    "options": [
+      "Phoenix Suns",
+      "Denver Nuggets",
+      "San Antonio Spurs",
+      "Boston Celtics"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 180,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Zion Williamson with the No. 1 overall pick in the 2019 NBA Draft?",
+    "options": [
+      "Milwaukee Bucks",
+      "San Antonio Spurs",
+      "New Orleans Pelicans",
+      "Brooklyn Nets"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 181,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Anthony Edwards with the No. 1 overall pick in the 2020 NBA Draft?",
+    "options": [
+      "Golden State Warriors",
+      "Memphis Grizzlies",
+      "Minnesota Timberwolves",
+      "Cleveland Cavaliers"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 182,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Cade Cunningham with the No. 1 overall pick in the 2021 NBA Draft?",
+    "options": [
+      "Detroit Pistons",
+      "Oklahoma City Thunder",
+      "New Orleans Pelicans",
+      "Chicago Bulls"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 183,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Paolo Banchero with the No. 1 overall pick in the 2022 NBA Draft?",
+    "options": [
+      "Los Angeles Lakers",
+      "Dallas Mavericks",
+      "New Orleans Hornets",
+      "Orlando Magic"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 184,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Victor Wembanyama with the No. 1 overall pick in the 2023 NBA Draft?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Charlotte Hornets",
+      "San Antonio Spurs",
+      "Brooklyn Nets"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 185,
+    "difficulty": "medium",
+    "category": "draft",
+    "question": "Which franchise selected Zaccharie Risacher with the No. 1 overall pick in the 2024 NBA Draft?",
+    "options": [
+      "Indiana Pacers",
+      "Brooklyn Nets",
+      "Atlanta Hawks",
+      "Cleveland Cavaliers"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 186,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "In which year did Stephen Curry won his first NBA MVP?",
+    "options": [
+      "2015",
+      "2014",
+      "2016",
+      "2017"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 187,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "In which year did LeBron James and the Cavaliers won the NBA championship?",
+    "options": [
+      "2016",
+      "2018",
+      "2017",
+      "2015"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 188,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "In which year did The Toronto Raptors won their first NBA title?",
+    "options": [
+      "2018",
+      "2020",
+      "2021",
+      "2019"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 189,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "In which year did Victor Wembanyama won Rookie of the Year?",
+    "options": [
+      "2024",
+      "2022",
+      "2023",
+      "2025"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 190,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "In which year did Giannis Antetokounmpo won his first NBA championship?",
+    "options": [
+      "2020",
+      "2022",
+      "2019",
+      "2021"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 191,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "In which year did Nikola Jokic won his first NBA MVP?",
+    "options": [
+      "2020",
+      "2021",
+      "2022",
+      "2023"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 192,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "In which year did The Boston Celtics beat the Mavericks in the Finals?",
+    "options": [
+      "2022",
+      "2025",
+      "2023",
+      "2024"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 193,
+    "difficulty": "medium",
+    "category": "history",
+    "question": "In which year did Michael Jordan won his first NBA championship?",
+    "options": [
+      "1991",
+      "1990",
+      "1992",
+      "1993"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 194,
+    "difficulty": "medium",
+    "category": "finals",
+    "question": "In which year did The Miami Heat beat the Mavericks in the Finals?",
+    "options": [
+      "2006",
+      "2007",
+      "2005",
+      "2011"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 195,
+    "difficulty": "medium",
+    "category": "awards",
+    "question": "In which year did Kawhi Leonard won Finals MVP with the Raptors?",
+    "options": [
+      "2018",
+      "2014",
+      "2019",
+      "2020"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 196,
+    "difficulty": "medium",
+    "category": "records",
+    "question": "Which player won the most NBA championships?",
+    "options": [
+      "Bill Russell",
+      "Magic Johnson",
+      "Michael Jordan",
+      "Kareem Abdul-Jabbar"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 197,
+    "difficulty": "medium",
+    "category": "records",
+    "question": "Which player won the most regular-season MVP awards in NBA history?",
+    "options": [
+      "LeBron James",
+      "Bill Russell",
+      "Michael Jordan",
+      "Kareem Abdul-Jabbar"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 198,
+    "difficulty": "medium",
+    "category": "records",
+    "question": "Which player has won the most NBA Finals MVP awards?",
+    "options": [
+      "Michael Jordan",
+      "LeBron James",
+      "Shaquille O'Neal",
+      "Magic Johnson"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 199,
+    "difficulty": "medium",
+    "category": "records",
+    "question": "Which NBA franchise won the 2019 title for its first championship?",
+    "options": [
+      "Phoenix Suns",
+      "Brooklyn Nets",
+      "Toronto Raptors",
+      "Denver Nuggets"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 200,
+    "difficulty": "medium",
+    "category": "records",
+    "question": "Which player was the only unanimous NBA MVP?",
+    "options": [
+      "Shaquille O'Neal",
+      "Stephen Curry",
+      "Nikola Jokic",
+      "LeBron James"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 201,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 1991 NBA Finals?",
+    "options": [
+      "4-0",
+      "4-2",
+      "4-1",
+      "4-3"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 202,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 1992 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-0",
+      "4-2",
+      "4-1"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 203,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 1993 NBA Finals?",
+    "options": [
+      "4-1",
+      "4-2",
+      "4-3",
+      "4-0"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 204,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 1994 NBA Finals?",
+    "options": [
+      "4-1",
+      "4-0",
+      "4-2",
+      "4-3"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 205,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 1995 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-2",
+      "4-1",
+      "4-0"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 206,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 1996 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-2",
+      "4-1",
+      "4-0"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 207,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 1997 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-1",
+      "4-2",
+      "4-0"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 208,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 1998 NBA Finals?",
+    "options": [
+      "4-1",
+      "4-2",
+      "4-0",
+      "4-3"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 209,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 1999 NBA Finals?",
+    "options": [
+      "4-0",
+      "4-2",
+      "4-3",
+      "4-1"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 210,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2000 NBA Finals?",
+    "options": [
+      "4-2",
+      "4-3",
+      "4-1",
+      "4-0"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 211,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2001 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-1",
+      "4-0",
+      "4-2"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 212,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2002 NBA Finals?",
+    "options": [
+      "4-0",
+      "4-2",
+      "4-3",
+      "4-1"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 213,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2003 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-2",
+      "4-0",
+      "4-1"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 214,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2005 NBA Finals?",
+    "options": [
+      "4-2",
+      "4-3",
+      "4-1",
+      "4-0"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 215,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2006 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-2",
+      "4-0",
+      "4-1"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 216,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2007 NBA Finals?",
+    "options": [
+      "4-1",
+      "4-3",
+      "4-0",
+      "4-2"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 217,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2008 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-2",
+      "4-0",
+      "4-1"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 218,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2010 NBA Finals?",
+    "options": [
+      "4-2",
+      "4-1",
+      "4-3",
+      "4-0"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 219,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2011 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-0",
+      "4-1",
+      "4-2"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 220,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2013 NBA Finals?",
+    "options": [
+      "4-1",
+      "4-0",
+      "4-3",
+      "4-2"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 221,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2015 NBA Finals?",
+    "options": [
+      "4-3",
+      "4-2",
+      "4-0",
+      "4-1"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 222,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2016 NBA Finals?",
+    "options": [
+      "4-2",
+      "4-0",
+      "4-3",
+      "4-1"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 223,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2018 NBA Finals?",
+    "options": [
+      "4-2",
+      "4-1",
+      "4-0",
+      "4-3"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 224,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2021 NBA Finals?",
+    "options": [
+      "4-0",
+      "4-2",
+      "4-3",
+      "4-1"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 225,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "What was the final series score of the 2024 NBA Finals?",
+    "options": [
+      "4-1",
+      "4-0",
+      "4-2",
+      "4-3"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 226,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "Which team did the Chicago Bulls defeat in the 1991 NBA Finals?",
+    "options": [
+      "Los Angeles Lakers",
+      "Utah Jazz",
+      "Seattle SuperSonics",
+      "Phoenix Suns"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 227,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "Which team did the Chicago Bulls defeat in the 1992 NBA Finals?",
+    "options": [
+      "Utah Jazz",
+      "Phoenix Suns",
+      "Los Angeles Lakers",
+      "Portland Trail Blazers"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 228,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "Which team did the Chicago Bulls defeat in the 1993 NBA Finals?",
+    "options": [
+      "Los Angeles Lakers",
+      "Phoenix Suns",
+      "Utah Jazz",
+      "Portland Trail Blazers"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 229,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won Finals MVP when the Rockets won the 1994 NBA title?",
+    "options": [
+      "Hakeem Olajuwon",
+      "Michael Jordan",
+      "Clyde Drexler",
+      "Patrick Ewing"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 230,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won Finals MVP when the Rockets swept the Magic in 1995?",
+    "options": [
+      "Hakeem Olajuwon",
+      "Shaquille O'Neal",
+      "Anfernee Hardaway",
+      "Clyde Drexler"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 231,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "Which team won the 1999 NBA championship?",
+    "options": [
+      "New York Knicks",
+      "Los Angeles Lakers",
+      "Indiana Pacers",
+      "San Antonio Spurs"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 232,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won Finals MVP in 2000?",
+    "options": [
+      "Reggie Miller",
+      "Tim Duncan",
+      "Shaquille O'Neal",
+      "Kobe Bryant"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 233,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won Finals MVP in 2001?",
+    "options": [
+      "Shaquille O'Neal",
+      "Kobe Bryant",
+      "Allen Iverson",
+      "Vince Carter"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 234,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "Which Eastern Conference team reached the 2002 NBA Finals?",
+    "options": [
+      "Philadelphia 76ers",
+      "Boston Celtics",
+      "Orlando Magic",
+      "New Jersey Nets"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 235,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "Which team won the 2003 NBA championship?",
+    "options": [
+      "Sacramento Kings",
+      "San Antonio Spurs",
+      "Detroit Pistons",
+      "New Jersey Nets"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 236,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won Finals MVP in 2004 after the Pistons beat the Lakers?",
+    "options": [
+      "Ben Wallace",
+      "Rip Hamilton",
+      "Kobe Bryant",
+      "Chauncey Billups"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 237,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "In the 2006 NBA Finals, which team lost to the Miami Heat?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Dallas Mavericks",
+      "San Antonio Spurs",
+      "Detroit Pistons"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 238,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Which player became the first European-born Finals MVP in 2007?",
+    "options": [
+      "Dirk Nowitzki",
+      "Tony Parker",
+      "Manu Ginobili",
+      "Pau Gasol"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 239,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "The Celtics defeated which franchise in the 2008 NBA Finals?",
+    "options": [
+      "Los Angeles Lakers",
+      "Detroit Pistons",
+      "Orlando Magic",
+      "Cleveland Cavaliers"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 240,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Which player earned Finals MVP honors when Dallas beat Miami in 2011?",
+    "options": [
+      "LeBron James",
+      "Dwyane Wade",
+      "Dirk Nowitzki",
+      "Jason Terry"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 241,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "Which team fell to the Heat in the 2012 NBA Finals?",
+    "options": [
+      "San Antonio Spurs",
+      "Boston Celtics",
+      "Oklahoma City Thunder",
+      "Dallas Mavericks"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 242,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Kawhi Leonard won Finals MVP in 2014 while playing for which team?",
+    "options": [
+      "Toronto Raptors",
+      "LA Clippers",
+      "Indiana Pacers",
+      "San Antonio Spurs"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 243,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Andre Iguodala won Finals MVP in 2015 for which champion?",
+    "options": [
+      "Cleveland Cavaliers",
+      "Miami Heat",
+      "Golden State Warriors",
+      "San Antonio Spurs"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 244,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Kevin Durant won Finals MVP in 2018 for which team?",
+    "options": [
+      "Golden State Warriors",
+      "Phoenix Suns",
+      "Brooklyn Nets",
+      "Oklahoma City Thunder"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 245,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Nikola Jokic won Finals MVP in 2023 after beating which opponent?",
+    "options": [
+      "Boston Celtics",
+      "Miami Heat",
+      "Los Angeles Lakers",
+      "Phoenix Suns"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 246,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which option lists all five teams in the NBA's Atlantic Division?",
+    "options": [
+      "Boston Celtics, Brooklyn Nets, New York Knicks, Philadelphia 76ers, Toronto Raptors",
+      "Boston Celtics, Brooklyn Nets, New York Knicks, Philadelphia 76ers, Miami Heat",
+      "Chicago Bulls, Cleveland Cavaliers, Detroit Pistons, Indiana Pacers, Milwaukee Bucks",
+      "Denver Nuggets, Brooklyn Nets, New York Knicks, Philadelphia 76ers, Toronto Raptors"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 247,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which option lists all five teams in the NBA's Central Division?",
+    "options": [
+      "Chicago Bulls, Cleveland Cavaliers, Detroit Pistons, Indiana Pacers, Miami Heat",
+      "Denver Nuggets, Cleveland Cavaliers, Detroit Pistons, Indiana Pacers, Milwaukee Bucks",
+      "Chicago Bulls, Cleveland Cavaliers, Detroit Pistons, Indiana Pacers, Milwaukee Bucks",
+      "Dallas Mavericks, Houston Rockets, Memphis Grizzlies, New Orleans Pelicans, San Antonio Spurs"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 248,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which option lists all five teams in the NBA's Southeast Division?",
+    "options": [
+      "Atlanta Hawks, Charlotte Hornets, Miami Heat, Orlando Magic, Washington Wizards",
+      "Denver Nuggets, Charlotte Hornets, Miami Heat, Orlando Magic, Washington Wizards",
+      "Boston Celtics, Brooklyn Nets, New York Knicks, Philadelphia 76ers, Toronto Raptors",
+      "Atlanta Hawks, Charlotte Hornets, Miami Heat, Orlando Magic, Washington Wizards"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 249,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which option lists all five teams in the NBA's Northwest Division?",
+    "options": [
+      "Golden State Warriors, LA Clippers, Los Angeles Lakers, Phoenix Suns, Sacramento Kings",
+      "Boston Celtics, Minnesota Timberwolves, Oklahoma City Thunder, Portland Trail Blazers, Utah Jazz",
+      "Denver Nuggets, Minnesota Timberwolves, Oklahoma City Thunder, Portland Trail Blazers, Utah Jazz",
+      "Denver Nuggets, Minnesota Timberwolves, Oklahoma City Thunder, Portland Trail Blazers, Miami Heat"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 250,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which option lists all five teams in the NBA's Pacific Division?",
+    "options": [
+      "Golden State Warriors, LA Clippers, Los Angeles Lakers, Phoenix Suns, Miami Heat",
+      "Denver Nuggets, LA Clippers, Los Angeles Lakers, Phoenix Suns, Sacramento Kings",
+      "Boston Celtics, Brooklyn Nets, New York Knicks, Philadelphia 76ers, Toronto Raptors",
+      "Golden State Warriors, LA Clippers, Los Angeles Lakers, Phoenix Suns, Sacramento Kings"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 251,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which option lists all five teams in the NBA's Southwest Division?",
+    "options": [
+      "Denver Nuggets, Houston Rockets, Memphis Grizzlies, New Orleans Pelicans, San Antonio Spurs",
+      "Dallas Mavericks, Houston Rockets, Memphis Grizzlies, New Orleans Pelicans, Miami Heat",
+      "Dallas Mavericks, Houston Rockets, Memphis Grizzlies, New Orleans Pelicans, San Antonio Spurs",
+      "Chicago Bulls, Cleveland Cavaliers, Detroit Pistons, Indiana Pacers, Milwaukee Bucks"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 252,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which of these teams is not a member of the NBA's Southeast Division?",
+    "options": [
+      "Chicago Bulls",
+      "Orlando Magic",
+      "Atlanta Hawks",
+      "Miami Heat"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 253,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which of these teams is not a member of the NBA's Central Division?",
+    "options": [
+      "Miami Heat",
+      "Indiana Pacers",
+      "Detroit Pistons",
+      "Milwaukee Bucks"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 254,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which of these teams is not a member of the NBA's Atlantic Division?",
+    "options": [
+      "Boston Celtics",
+      "Chicago Bulls",
+      "Toronto Raptors",
+      "Brooklyn Nets"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 255,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which of these teams is not a member of the NBA's Northwest Division?",
+    "options": [
+      "Utah Jazz",
+      "Portland Trail Blazers",
+      "Denver Nuggets",
+      "Phoenix Suns"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 256,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which of these teams is not a member of the NBA's Pacific Division?",
+    "options": [
+      "Golden State Warriors",
+      "Los Angeles Lakers",
+      "Denver Nuggets",
+      "Sacramento Kings"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 257,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which of these teams is not a member of the NBA's Southwest Division?",
+    "options": [
+      "Houston Rockets",
+      "Memphis Grizzlies",
+      "Dallas Mavericks",
+      "Utah Jazz"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 258,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which option is outside the NBA's Southeast Division?",
+    "options": [
+      "Orlando Magic",
+      "Miami Heat",
+      "Indiana Pacers",
+      "Atlanta Hawks"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 259,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which franchise is not part of the Atlantic Division?",
+    "options": [
+      "Boston Celtics",
+      "Brooklyn Nets",
+      "New York Knicks",
+      "Milwaukee Bucks"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 260,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which team does not play in the Pacific Division?",
+    "options": [
+      "LA Clippers",
+      "Sacramento Kings",
+      "Houston Rockets",
+      "Phoenix Suns"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 261,
+    "difficulty": "hard",
+    "category": "teams",
+    "question": "Which club is not in the Northwest Division?",
+    "options": [
+      "Denver Nuggets",
+      "Utah Jazz",
+      "Portland Trail Blazers",
+      "Dallas Mavericks"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 262,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 1997 NBA Draft.",
+    "options": [
+      "Anthony Edwards",
+      "Elton Brand",
+      "Deandre Ayton",
+      "Tim Duncan"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 263,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 1998 NBA Draft.",
+    "options": [
+      "Kenyon Martin",
+      "Paolo Banchero",
+      "Michael Olowokandi",
+      "Ben Simmons"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 264,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 1999 NBA Draft.",
+    "options": [
+      "Paolo Banchero",
+      "Anthony Edwards",
+      "John Wall",
+      "Elton Brand"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 265,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2000 NBA Draft.",
+    "options": [
+      "Dwight Howard",
+      "Michael Olowokandi",
+      "Kwame Brown",
+      "Kenyon Martin"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 266,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2001 NBA Draft.",
+    "options": [
+      "Deandre Ayton",
+      "Kwame Brown",
+      "Zaccharie Risacher",
+      "Paolo Banchero"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 267,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2002 NBA Draft.",
+    "options": [
+      "Yao Ming",
+      "Kenyon Martin",
+      "Victor Wembanyama",
+      "Kwame Brown"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 268,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2005 NBA Draft.",
+    "options": [
+      "Andrea Bargnani",
+      "Kyrie Irving",
+      "Derrick Rose",
+      "Andrew Bogut"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 269,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2006 NBA Draft.",
+    "options": [
+      "Andrea Bargnani",
+      "Anthony Edwards",
+      "Greg Oden",
+      "Michael Olowokandi"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 270,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2007 NBA Draft.",
+    "options": [
+      "Markelle Fultz",
+      "Cade Cunningham",
+      "Andrea Bargnani",
+      "Greg Oden"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 271,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2009 NBA Draft.",
+    "options": [
+      "Paolo Banchero",
+      "Andrew Wiggins",
+      "Kyrie Irving",
+      "Blake Griffin"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 272,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2011 NBA Draft.",
+    "options": [
+      "Karl-Anthony Towns",
+      "Kyrie Irving",
+      "Michael Olowokandi",
+      "Anthony Edwards"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 273,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2012 NBA Draft.",
+    "options": [
+      "Zaccharie Risacher",
+      "Anthony Davis",
+      "Andrea Bargnani",
+      "Ben Simmons"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 274,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2013 NBA Draft.",
+    "options": [
+      "LeBron James",
+      "Andrew Wiggins",
+      "Andrea Bargnani",
+      "Anthony Bennett"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 275,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2014 NBA Draft.",
+    "options": [
+      "Andrew Wiggins",
+      "Kenyon Martin",
+      "Anthony Edwards",
+      "Anthony Davis"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 276,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Name the No. 1 overall selection in the 2017 NBA Draft.",
+    "options": [
+      "Anthony Bennett",
+      "Markelle Fultz",
+      "Andrew Bogut",
+      "Zaccharie Risacher"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 277,
+    "difficulty": "hard",
+    "category": "records",
+    "question": "How many points did Wilt Chamberlain score in his famous 1962 record game?",
+    "options": [
+      "82",
+      "100",
+      "101",
+      "81"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 278,
+    "difficulty": "hard",
+    "category": "records",
+    "question": "What was Golden State's regular-season record in 2015-16?",
+    "options": [
+      "72-10",
+      "71-11",
+      "74-8",
+      "73-9"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 279,
+    "difficulty": "hard",
+    "category": "records",
+    "question": "How many triple-doubles did Russell Westbrook post in 2016-17?",
+    "options": [
+      "41",
+      "42",
+      "43",
+      "40"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 280,
+    "difficulty": "hard",
+    "category": "records",
+    "question": "How many championships did Bill Russell win as a player?",
+    "options": [
+      "9",
+      "11",
+      "10",
+      "12"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 281,
+    "difficulty": "hard",
+    "category": "records",
+    "question": "Who is the NBA's career blocks leader?",
+    "options": [
+      "Kareem Abdul-Jabbar",
+      "Hakeem Olajuwon",
+      "Dikembe Mutombo",
+      "Mark Eaton"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 282,
+    "difficulty": "hard",
+    "category": "records",
+    "question": "Who is the NBA's career steals leader?",
+    "options": [
+      "Michael Jordan",
+      "John Stockton",
+      "Chris Paul",
+      "Gary Payton"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 283,
+    "difficulty": "hard",
+    "category": "records",
+    "question": "Who holds the NBA record for career made 3-pointers?",
+    "options": [
+      "Klay Thompson",
+      "Ray Allen",
+      "Stephen Curry",
+      "James Harden"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 284,
+    "difficulty": "hard",
+    "category": "history",
+    "question": "Who captured the 1969 Finals MVP while on the losing side?",
+    "options": [
+      "Elgin Baylor",
+      "Jerry West",
+      "Wilt Chamberlain",
+      "Bill Russell"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 285,
+    "difficulty": "hard",
+    "category": "records",
+    "question": "Who has the most regular-season MVP awards in NBA history?",
+    "options": [
+      "Michael Jordan",
+      "Kareem Abdul-Jabbar",
+      "LeBron James",
+      "Bill Russell"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 286,
+    "difficulty": "hard",
+    "category": "records",
+    "question": "Which team scored an NBA-record 186 points in a single game in 1983?",
+    "options": [
+      "Denver Nuggets",
+      "San Antonio Spurs",
+      "Detroit Pistons",
+      "Golden State Warriors"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 287,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won MVP in 2011 as the star of the Bulls?",
+    "options": [
+      "Derrick Rose",
+      "LeBron James",
+      "Kobe Bryant",
+      "Dwight Howard"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 288,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won MVP in 2018 as a member of the Rockets?",
+    "options": [
+      "James Harden",
+      "Russell Westbrook",
+      "Stephen Curry",
+      "Chris Paul"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 289,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won Rookie of the Year in 2021 for Charlotte?",
+    "options": [
+      "LaMelo Ball",
+      "Tyrese Haliburton",
+      "Ja Morant",
+      "Anthony Edwards"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 290,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won Most Improved Player in 2019 for Toronto?",
+    "options": [
+      "Fred VanVleet",
+      "Pascal Siakam",
+      "DeMar DeRozan",
+      "Kyle Lowry"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 291,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who won Sixth Man of the Year in 2024 for Minnesota?",
+    "options": [
+      "Naz Reid",
+      "Rudy Gobert",
+      "Karl-Anthony Towns",
+      "Mike Conley"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 292,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Which player did the New Orleans Hornets draft first overall in 2012?",
+    "options": [
+      "Kyrie Irving",
+      "Anthony Davis",
+      "Damian Lillard",
+      "Bradley Beal"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 293,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Which player did Cleveland choose first overall in 2014?",
+    "options": [
+      "Dante Exum",
+      "Andrew Wiggins",
+      "Jabari Parker",
+      "Joel Embiid"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 294,
+    "difficulty": "hard",
+    "category": "draft",
+    "question": "Which player did Detroit select first overall in 2021?",
+    "options": [
+      "Evan Mobley",
+      "Scottie Barnes",
+      "Cade Cunningham",
+      "Jalen Green"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 295,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who was Finals MVP when the Lakers beat the Celtics in 2010?",
+    "options": [
+      "Pau Gasol",
+      "Ray Allen",
+      "Kobe Bryant",
+      "Paul Pierce"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 296,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Who was Finals MVP when Cleveland completed its 3-1 comeback in 2016?",
+    "options": [
+      "Stephen Curry",
+      "Kyrie Irving",
+      "LeBron James",
+      "Kevin Love"
+    ],
+    "answer_index": 2
+  },
+  {
+    "id": 297,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Which Celtic won DPOY in 2022?",
+    "options": [
+      "Jayson Tatum",
+      "Robert Williams III",
+      "Rudy Gobert",
+      "Marcus Smart"
+    ],
+    "answer_index": 3
+  },
+  {
+    "id": 298,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Which Timberwolves player won DPOY in 2024?",
+    "options": [
+      "Jaren Jackson Jr.",
+      "Rudy Gobert",
+      "Bam Adebayo",
+      "Anthony Edwards"
+    ],
+    "answer_index": 1
+  },
+  {
+    "id": 299,
+    "difficulty": "hard",
+    "category": "awards",
+    "question": "Which 76ers guard won Most Improved Player in 2024?",
+    "options": [
+      "Tyrese Maxey",
+      "Jalen Brunson",
+      "Dejounte Murray",
+      "Tyrese Haliburton"
+    ],
+    "answer_index": 0
+  },
+  {
+    "id": 300,
+    "difficulty": "hard",
+    "category": "finals",
+    "question": "Which team did Milwaukee defeat to win the 2021 NBA championship?",
+    "options": [
+      "Miami Heat",
+      "Phoenix Suns",
+      "Atlanta Hawks",
+      "Boston Celtics"
+    ],
+    "answer_index": 1
+  }
+]
