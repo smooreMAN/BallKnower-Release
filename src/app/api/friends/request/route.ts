@@ -3,7 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await req.json();
+    const body = await req.json();
+    const userId = body?.userId;
 
     if (!userId || typeof userId !== 'string') {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
@@ -19,7 +20,10 @@ export async function POST(req: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json(
+        { error: authError?.message || 'Unauthorized' },
+        { status: 401 }
+      );
     }
 
     if (cleanedUserId === user.id) {
@@ -33,8 +37,10 @@ export async function POST(req: NextRequest) {
       .maybeSingle();
 
     if (targetError) {
-      console.error('Target user lookup error:', targetError);
-      return NextResponse.json({ error: 'Failed to find that user' }, { status: 500 });
+      return NextResponse.json(
+        { error: `Target lookup failed: ${targetError.message}` },
+        { status: 500 }
+      );
     }
 
     if (!targetUser) {
@@ -50,8 +56,10 @@ export async function POST(req: NextRequest) {
       .maybeSingle();
 
     if (existingFriendError) {
-      console.error('Existing friend lookup error:', existingFriendError);
-      return NextResponse.json({ error: 'Failed to check existing requests' }, { status: 500 });
+      return NextResponse.json(
+        { error: `Existing request lookup failed: ${existingFriendError.message}` },
+        { status: 500 }
+      );
     }
 
     if (existingFriend) {
@@ -71,9 +79,8 @@ export async function POST(req: NextRequest) {
     });
 
     if (insertError) {
-      console.error('Friend request insert error:', insertError);
       return NextResponse.json(
-        { error: insertError.message || 'Failed to send request' },
+        { error: `Insert failed: ${insertError.message}` },
         { status: 500 }
       );
     }
@@ -83,7 +90,7 @@ export async function POST(req: NextRequest) {
       username: targetUser.username,
     });
   } catch (error) {
-    console.error('Friend request route error:', error);
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Unknown server error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
