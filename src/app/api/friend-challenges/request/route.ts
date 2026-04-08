@@ -47,21 +47,23 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const { data: existingChallenge, error: existingChallengeError } = await supabase
+    // Expire any older pending challenge from this same challenger to this same challenged user
+    const { error: expireError } = await supabase
       .from('friend_challenges')
-      .select('id, status')
+      .update({
+        status: 'expired',
+        responded_at: new Date().toISOString(),
+      })
       .eq('challenger_id', user.id)
       .eq('challenged_id', challengedId)
-      .in('status', ['pending', 'accepted'])
-      .maybeSingle();
+      .eq('status', 'pending');
 
-    if (existingChallengeError) {
-      console.error('Existing challenge lookup error:', existingChallengeError);
-      return NextResponse.json({ error: 'Failed to check existing challenges' }, { status: 500 });
-    }
-
-    if (existingChallenge) {
-      return NextResponse.json({ error: 'Challenge already exists' }, { status: 400 });
+    if (expireError) {
+      console.error('Challenge expire error:', expireError);
+      return NextResponse.json(
+        { error: 'Failed to clear old pending challenges' },
+        { status: 500 }
+      );
     }
 
     const { data: insertedChallenge, error: insertError } = await supabase
