@@ -43,13 +43,13 @@ export async function getSharedQuestions(params: {
 
   const questionIds = picked.map((q) => q.id);
 
-  await supabase
-    .rpc('increment_question_usage', {
+  try {
+    await supabase.rpc('increment_question_usage', {
       question_ids: questionIds,
-    })
-    .catch(() => {
-      // non-critical
     });
+  } catch {
+    // non-critical
+  }
 
   return {
     questionIds,
