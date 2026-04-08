@@ -1,10 +1,12 @@
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { getTier, getEloProgress, TIERS } from '@/lib/elo';
+import { getTier, getEloProgress } from '@/lib/elo';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -27,13 +29,13 @@ export default async function DashboardPage() {
 
   const tier = profile ? getTier(profile.elo) : null;
   const progress = profile ? getEloProgress(profile.elo) : 0;
-  const winRate = profile && profile.games_played > 0
-    ? Math.round((profile.wins / profile.games_played) * 100)
-    : 0;
+  const winRate =
+    profile && profile.games_played > 0
+      ? Math.round((profile.wins / profile.games_played) * 100)
+      : 0;
 
   return (
     <div className="space-y-6 animate-slide-up">
-      {/* Elo Card */}
       {profile && tier && (
         <div
           className="rounded-2xl p-6 border border-bk-gray-light relative overflow-hidden"
@@ -57,16 +59,26 @@ export default async function DashboardPage() {
               </div>
 
               <div className="text-right">
-                <div className="text-bk-gray-muted text-xs uppercase tracking-widest mb-3">Stats</div>
+                <div className="text-bk-gray-muted text-xs uppercase tracking-widest mb-3">
+                  Stats
+                </div>
                 <div className="space-y-1 text-sm">
-                  <div><span className="text-bk-gray-muted">Games: </span><span className="text-bk-white font-bold">{profile.games_played}</span></div>
-                  <div><span className="text-bk-gray-muted">Wins: </span><span className="text-green-400 font-bold">{profile.wins}</span></div>
-                  <div><span className="text-bk-gray-muted">Win %: </span><span className="text-bk-white font-bold">{winRate}%</span></div>
+                  <div>
+                    <span className="text-bk-gray-muted">Games: </span>
+                    <span className="text-bk-white font-bold">{profile.games_played}</span>
+                  </div>
+                  <div>
+                    <span className="text-bk-gray-muted">Wins: </span>
+                    <span className="text-green-400 font-bold">{profile.wins}</span>
+                  </div>
+                  <div>
+                    <span className="text-bk-gray-muted">Win %: </span>
+                    <span className="text-bk-white font-bold">{winRate}%</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Progress bar */}
             <div className="mt-5">
               <div className="flex justify-between text-xs text-bk-gray-muted mb-1.5">
                 <span>{tier.label}</span>
@@ -83,34 +95,53 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      {/* Quick Play CTA */}
-      <Link
-        href="/dashboard/play"
-        className="block w-full bg-bk-gold text-bk-black font-display text-3xl tracking-wider text-center py-5 rounded-2xl hover:bg-bk-gold-dark transition-all duration-200 hover:scale-[1.01] active:scale-95 animate-gold-pulse"
-      >
-        ▶ PLAY NOW
-      </Link>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Link
+          href="/dashboard/play"
+          className="block w-full bg-bk-gold text-bk-black font-display text-3xl tracking-wider text-center py-5 rounded-2xl hover:bg-bk-gold-dark transition-all duration-200 hover:scale-[1.01] active:scale-95"
+        >
+          🤖 PLAY BOT
+        </Link>
 
-      {/* Bottom grid */}
+        <Link
+          href="/dashboard/matchmaking"
+          className="block w-full border-2 border-bk-gold text-bk-gold font-display text-3xl tracking-wider text-center py-5 rounded-2xl hover:bg-bk-gold hover:text-bk-black transition-all duration-200 hover:scale-[1.01] active:scale-95"
+        >
+          ⚔️ PLAY ONLINE
+        </Link>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {/* Recent Games */}
         <div className="bg-bk-gray rounded-2xl p-5 border border-bk-gray-light">
           <h2 className="font-display text-xl text-bk-white mb-4 tracking-wide">RECENT GAMES</h2>
           {recentGames && recentGames.length > 0 ? (
             <div className="space-y-3">
-              {recentGames.map(game => {
+              {recentGames.map((game) => {
                 const won = game.winner_id === user!.id;
                 const tied = game.winner_id === null;
                 return (
                   <div key={game.id} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className={`w-2 h-2 rounded-full ${won ? 'bg-green-400' : tied ? 'bg-yellow-400' : 'bg-red-400'}`} />
-                      <span className="text-sm text-bk-gray-muted capitalize">{game.sport.replace('_', ' ')}</span>
+                      <span
+                        className={`w-2 h-2 rounded-full ${
+                          won ? 'bg-green-400' : tied ? 'bg-yellow-400' : 'bg-red-400'
+                        }`}
+                      />
+                      <span className="text-sm text-bk-gray-muted capitalize">
+                        {game.sport.replace('_', ' ')}
+                      </span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
-                      <span className="text-bk-white font-bold">{game.player1_score}–{game.player2_score}</span>
-                      <span className={`font-bold ${game.elo_change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                        {game.elo_change >= 0 ? '+' : ''}{game.elo_change}
+                      <span className="text-bk-white font-bold">
+                        {game.player1_score}–{game.player2_score}
+                      </span>
+                      <span
+                        className={`font-bold ${
+                          game.elo_change >= 0 ? 'text-green-400' : 'text-red-400'
+                        }`}
+                      >
+                        {game.elo_change >= 0 ? '+' : ''}
+                        {game.elo_change}
                       </span>
                     </div>
                   </div>
@@ -122,7 +153,6 @@ export default async function DashboardPage() {
           )}
         </div>
 
-        {/* Leaderboard preview */}
         <div className="bg-bk-gray rounded-2xl p-5 border border-bk-gray-light">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-display text-xl text-bk-white tracking-wide">TOP PLAYERS</h2>
