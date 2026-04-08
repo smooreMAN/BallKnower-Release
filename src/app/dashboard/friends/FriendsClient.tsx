@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 type IncomingRequest = {
@@ -57,12 +57,45 @@ export default function FriendsClient({
   incomingChallenges: IncomingChallenge[];
 }) {
   const router = useRouter();
+
   const [userIdInput, setUserIdInput] = useState('');
   const [sending, setSending] = useState(false);
   const [message, setMessage] = useState('');
   const [workingId, setWorkingId] = useState<string | null>(null);
   const [challengingId, setChallengingId] = useState<string | null>(null);
   const [respondingChallengeId, setRespondingChallengeId] = useState<string | null>(null);
+
+  const [localIncoming, setLocalIncoming] = useState(incoming);
+  const [localFriends, setLocalFriends] = useState(friends);
+  const [localIncomingChallenges, setLocalIncomingChallenges] = useState(incomingChallenges);
+
+  useEffect(() => {
+    setLocalIncoming(incoming);
+  }, [incoming]);
+
+  useEffect(() => {
+    setLocalFriends(friends);
+  }, [friends]);
+
+  useEffect(() => {
+    setLocalIncomingChallenges(incomingChallenges);
+  }, [incomingChallenges]);
+
+  const visibleFriends = useMemo(
+    () => localFriends.filter((row) => row.friend && row.friend.id !== currentUserId),
+    [localFriends, currentUserId]
+  );
+
+  const visibleIncomingChallenges = useMemo(
+    () =>
+      localIncomingChallenges.filter(
+        (challenge) =>
+          challenge.challenger &&
+          challenge.challenger.id !== currentUserId &&
+          challenge.challenged_id === currentUserId
+      ),
+    [localIncomingChallenges, currentUserId]
+  );
 
   const handleSendRequest = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,6 +144,7 @@ export default function FriendsClient({
         return;
       }
 
+      setLocalIncoming((prev) => prev.filter((req) => req.id !== requestId));
       setMessage(action === 'accepted' ? 'Friend request accepted' : 'Friend request declined');
       router.refresh();
     } catch {
@@ -121,6 +155,11 @@ export default function FriendsClient({
   };
 
   const handleChallenge = async (friendId: string, friendUsername: string) => {
+    if (!friendId || friendId === currentUserId) {
+      setMessage('You cannot challenge yourself');
+      return;
+    }
+
     setChallengingId(friendId);
     setMessage('');
 
@@ -171,6 +210,10 @@ export default function FriendsClient({
         setMessage(data.error || 'Failed to respond to challenge');
         return;
       }
+
+      setLocalIncomingChallenges((prev) =>
+        prev.filter((challenge) => challenge.id !== challengeId)
+      );
 
       if (action === 'accepted') {
         setMessage('Challenge accepted');
@@ -236,11 +279,11 @@ export default function FriendsClient({
       <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-5">
         <h2 className="font-display text-2xl text-bk-white mb-4">INCOMING REQUESTS</h2>
 
-        {incoming.length === 0 ? (
+        {localIncoming.length === 0 ? (
           <p className="text-bk-gray-muted">No incoming requests.</p>
         ) : (
           <div className="space-y-3">
-            {incoming.map((req) => (
+            {localIncoming.map((req) => (
               <div
                 key={req.id}
                 className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
@@ -278,11 +321,11 @@ export default function FriendsClient({
       <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-5">
         <h2 className="font-display text-2xl text-bk-white mb-4">INCOMING CHALLENGES</h2>
 
-        {incomingChallenges.length === 0 ? (
+        {visibleIncomingChallenges.length === 0 ? (
           <p className="text-bk-gray-muted">No incoming challenges.</p>
         ) : (
           <div className="space-y-3">
-            {incomingChallenges.map((challenge) => (
+            {visibleIncomingChallenges.map((challenge) => (
               <div
                 key={challenge.id}
                 className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
@@ -327,11 +370,11 @@ export default function FriendsClient({
       <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-5">
         <h2 className="font-display text-2xl text-bk-white mb-4">YOUR FRIENDS</h2>
 
-        {friends.length === 0 ? (
+        {visibleFriends.length === 0 ? (
           <p className="text-bk-gray-muted">No friends yet.</p>
         ) : (
           <div className="space-y-3">
-            {friends.map((row) => (
+            {visibleFriends.map((row) => (
               <div
                 key={row.id}
                 className="bg-bk-black border border-bk-gray-light rounded-xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
@@ -344,13 +387,13 @@ export default function FriendsClient({
                   </p>
                 </div>
 
-                {row.friend && (
+                {row.friend && row.friend.id !== currentUserId && (
                   <button
-                    onClick={() => handleChallenge(row.friend!.id, row.friend!.username)}
-                    disabled={challengingId === row.friend!.id}
+                    onClick={() => handleChallenge(row.friend.id, row.friend.username)}
+                    disabled={challengingId === row.friend.id}
                     className="px-4 py-2 rounded-lg bg-bk-gold text-bk-black font-bold hover:opacity-90 disabled:opacity-50"
                   >
-                    {challengingId === row.friend!.id ? 'Sending...' : 'Challenge'}
+                    {challengingId === row.friend.id ? 'Sending...' : 'Challenge'}
                   </button>
                 )}
               </div>

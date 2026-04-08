@@ -3,6 +3,7 @@ import FriendsClient from './FriendsClient';
 
 export default async function FriendsPage() {
   const supabase = await createClient();
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -68,19 +69,24 @@ export default async function FriendsPage() {
     requester: profileMap.get(row.requester_id) ?? null,
   }));
 
-  const friends = (acceptedRows ?? []).map((row) => {
-    const friendId = row.requester_id === user.id ? row.addressee_id : row.requester_id;
-    return {
-      id: row.id,
-      created_at: row.created_at,
-      friend: profileMap.get(friendId) ?? null,
-    };
-  });
+  const friends = (acceptedRows ?? [])
+    .map((row) => {
+      const friendId = row.requester_id === user.id ? row.addressee_id : row.requester_id;
 
-  const incomingChallenges = (incomingChallengeRows ?? []).map((row) => ({
-    ...row,
-    challenger: profileMap.get(row.challenger_id) ?? null,
-  }));
+      return {
+        id: row.id,
+        created_at: row.created_at,
+        friend: friendId === user.id ? null : profileMap.get(friendId) ?? null,
+      };
+    })
+    .filter((row) => row.friend !== null);
+
+  const incomingChallenges = (incomingChallengeRows ?? [])
+    .filter((row) => row.challenger_id !== user.id)
+    .map((row) => ({
+      ...row,
+      challenger: profileMap.get(row.challenger_id) ?? null,
+    }));
 
   return (
     <FriendsClient
