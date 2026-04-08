@@ -36,7 +36,6 @@ export default async function MatchPlayPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
   const supabase = await createClient();
 
   const {
@@ -67,7 +66,7 @@ export default async function MatchPlayPage({
       created_at
     `)
     .eq('id', id)
-    .single();
+    .single<MatchRow>();
 
   if (matchError || !match) {
     return (
@@ -80,7 +79,9 @@ export default async function MatchPlayPage({
     );
   }
 
-  if (match.player1_id !== user.id && match.player2_id !== user.id) {
+  const isPlayer = match.player1_id === user.id || match.player2_id === user.id;
+
+  if (!isPlayer) {
     return (
       <div className="animate-slide-up">
         <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
@@ -95,7 +96,22 @@ export default async function MatchPlayPage({
     redirect(`/dashboard/match/${match.id}`);
   }
 
+  if (match.status === 'completed') {
+    redirect(`/dashboard/match/${match.id}/results`);
+  }
+
   const questionIds = Array.isArray(match.question_ids) ? match.question_ids : [];
+
+  if (questionIds.length === 0) {
+    return (
+      <div className="animate-slide-up">
+        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
+          <h1 className="font-display text-4xl text-bk-white mb-2">NO QUESTIONS FOUND</h1>
+          <p className="text-bk-gray-muted">This match has no questions assigned.</p>
+        </div>
+      </div>
+    );
+  }
 
   const { data: questionsData, error: questionsError } = await supabase
     .from('questions')
@@ -113,15 +129,18 @@ export default async function MatchPlayPage({
     );
   }
 
-  const questionMap = new Map((questionsData ?? []).map((q) => [q.id, q]));
+  const questionMap = new Map<string, QuestionRow>(
+    (questionsData ?? []).map((q) => [q.id, q as QuestionRow])
+  );
+
   const orderedQuestions = questionIds
     .map((qid) => questionMap.get(qid))
-    .filter(Boolean) as QuestionRow[];
+    .filter((q): q is QuestionRow => Boolean(q));
 
   return (
     <MatchPlayClient
       currentUserId={user.id}
-      initialMatch={match as MatchRow}
+      initialMatch={match}
       questions={orderedQuestions}
     />
   );

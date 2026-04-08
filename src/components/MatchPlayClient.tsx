@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 type MatchRow = {
@@ -50,10 +50,12 @@ export default function MatchPlayClient({
   const [hasSubmittedThisQuestion, setHasSubmittedThisQuestion] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [waitingForOpponent, setWaitingForOpponent] = useState(false);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState('');
 
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const advanceInFlightRef = useRef(false);
+  const hasUnmountedRef = useRef(false);
   const lastQuestionIndexRef = useRef<number>(initialMatch.current_question_index);
 
   const myScore =
@@ -74,53 +76,104 @@ export default function MatchPlayClient({
     return match.winner_id === currentUserId ? 'YOU WIN' : 'YOU LOSE';
   }, [isFinished, match.winner_id, currentUserId]);
 
-  const clearTimer = () => {
+  const clearTimer = useCallback(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
-  };
+  }, []);
 
-  const clearPoll = () => {
+  const clearPoll = useCallback(() => {
     if (pollRef.current) {
       clearInterval(pollRef.current);
       pollRef.current = null;
     }
-  };
+  }, []);
 
-  const fetchLatestMatch = async () => {
+  const resetForNewQuestion = useCallback((newIndex: number) => {
+    lastQuestionIndexRef.current = newIndex;
+    setSelectedAnswer(null);
+    setHasSubmittedThisQuestion(false);
+    setIsSubmitting(false);
+    setWaitingForOpponent(false);
+    setError('');
+    setTimeLeft(SECONDS_PER_QUESTION);
+    advanceInFlightRef.current = false;
+  }, []);
+
+  const fetchLatestMatch = useCallback(async () => {
     try {
       const res = await fetch(`/api/match/${match.id}`, {
         method: 'GET',
         cache: 'no-store',
       });
 
-      if (!res.ok) return;
+      if (!res.ok) return null;
 
-      const data = await res.json();
-      if (!data?.match) return;
+      const data = await res.json().catch(() => null);
+      if (!data?.match) return null;
 
       const latest = data.match as MatchRow;
-      setMatch(latest);
 
-      if (
-        latest.current_question_index !== lastQuestionIndexRef.current
-      ) {
-        lastQuestionIndexRef.current = latest.current_question_index;
-        setSelectedAnswer(null);
-        setHasSubmittedThisQuestion(false);
-        setIsSubmitting(false);
-        setWaitingForOpponent(false);
-        setTimeLeft(SECONDS_PER_QUESTION);
+      if (!hasUnmountedRef.current) {
+        setMatch(latest);
+
+        if (latest.current_question_index !== lastQuestionIndexRef.current) {
+          resetForNewQuestion(latest.current_question_index);
+        }
+
+        if (latest.status === 'completed' || latest.winner_id) {
+          clearTimer();
+          setWaitingForOpponent(false);
+          setIsSubmitting(false);
+          advanceInFlightRef.current = false;
+        }
       }
 
-      if (latest.status === 'completed' || latest.winner_id) {
-        clearTimer();
-      }
+      return latest;
     } catch (err) {
       console.error('Polling match failed:', err);
+      return null;
     }
-  };
+  }, [match.id, clearTimer, resetForNewQuestion]);
+
+  const tryAdvanceMatch = useCallback(async () => {
+    if (advanceInFlightRef.current) return;
+
+    advanceInFlightRef.current = true;
+
+    try {
+      const res = await fetch(`/api/match/${match.id}/advance`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          questionIndex: lastQuestionIndexRef.current,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json().catch(() => null);
+        if (data?.match && !hasUnmountedRef.current) {
+          const latest = data.match as MatchRow;
+          setMatch(latest);
+
+          if (latest.current_question_index !== lastQuestionIndexRef.current) {
+            resetForNewQuestion(latest.current_question_index);
+          }
+
+          if (latest.status === 'completed' || latest.winner_id) {
+            clearTimer();
+            setWaitingForOpponent(false);
+            setIsSubmitting(false);
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Advance match failed:', err);
+    } finally {
+      advanceInFlightRef.current = false;
+    }
+  }, [match.id, clearTimer, resetForNewQuestion]);
 
   const submitAnswer = async (answerIndex: number) => {
     if (!currentQuestion) return;
@@ -154,6 +207,8 @@ export default function MatchPlayClient({
       }
 
       await fetchLatestMatch();
+      await tryAdvanceMatch();
+      await fetchLatestMatch();
     } catch (err) {
       console.error('Submit answer failed:', err);
       setError('Failed to submit answer');
@@ -162,14 +217,16 @@ export default function MatchPlayClient({
     }
   };
 
-  const handleTimeUp = async () => {
+  const handleTimeUp = useCallback(async () => {
     if (!currentQuestion) return;
     if (hasSubmittedThisQuestion || isFinished) return;
 
+    setError('');
     setSelectedAnswer(null);
     setHasSubmittedThisQuestion(true);
     setIsSubmitting(true);
     setWaitingForOpponent(true);
+    clearTimer();
 
     try {
       const res = await fetch(`/api/match/${match.id}/submit-answer`, {
@@ -192,13 +249,31 @@ export default function MatchPlayClient({
       }
 
       await fetchLatestMatch();
+      await tryAdvanceMatch();
+      await fetchLatestMatch();
     } catch (err) {
       console.error('Timeout submit failed:', err);
       setError('Failed to submit timeout answer');
       setWaitingForOpponent(false);
       setIsSubmitting(false);
     }
-  };
+  }, [
+    currentQuestion,
+    hasSubmittedThisQuestion,
+    isFinished,
+    clearTimer,
+    match.id,
+    match.current_question_index,
+    fetchLatestMatch,
+    tryAdvanceMatch,
+  ]);
+
+  useEffect(() => {
+    hasUnmountedRef.current = false;
+    return () => {
+      hasUnmountedRef.current = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (!currentQuestion) return;
@@ -220,31 +295,42 @@ export default function MatchPlayClient({
     }, 1000);
 
     return clearTimer;
-  }, [match.current_question_index, currentQuestion, isFinished, hasSubmittedThisQuestion]);
+  }, [
+    match.current_question_index,
+    currentQuestion,
+    isFinished,
+    hasSubmittedThisQuestion,
+    handleTimeUp,
+    clearTimer,
+  ]);
 
   useEffect(() => {
     clearPoll();
 
-    pollRef.current = setInterval(() => {
-      void fetchLatestMatch();
-    }, 1500);
+    pollRef.current = setInterval(async () => {
+      const latest = await fetchLatestMatch();
+
+      if (!latest) return;
+
+      if (
+        waitingForOpponent &&
+        !latest.winner_id &&
+        latest.status !== 'completed'
+      ) {
+        await tryAdvanceMatch();
+      }
+    }, 1000);
 
     return clearPoll;
-  }, [match.id]);
+  }, [fetchLatestMatch, tryAdvanceMatch, waitingForOpponent, clearPoll]);
 
   useEffect(() => {
     if (isFinished) {
       clearTimer();
-    }
-  }, [isFinished]);
-
-  useEffect(() => {
-    if (match.status === 'completed' || match.winner_id) {
-      clearTimer();
       setWaitingForOpponent(false);
       setIsSubmitting(false);
     }
-  }, [match.status, match.winner_id]);
+  }, [isFinished, clearTimer]);
 
   const progress = questions.length
     ? ((match.current_question_index + 1) / questions.length) * 100
@@ -270,8 +356,8 @@ export default function MatchPlayClient({
             match.winner_id === currentUserId
               ? 'border-green-500 bg-green-900/20'
               : match.winner_id
-              ? 'border-red-500 bg-red-900/20'
-              : 'border-yellow-500 bg-yellow-900/20'
+                ? 'border-red-500 bg-red-900/20'
+                : 'border-yellow-500 bg-yellow-900/20'
           }`}
         >
           <div className="text-6xl mb-3">
@@ -282,8 +368,8 @@ export default function MatchPlayClient({
               match.winner_id === currentUserId
                 ? 'text-green-400'
                 : match.winner_id
-                ? 'text-red-400'
-                : 'text-yellow-400'
+                  ? 'text-red-400'
+                  : 'text-yellow-400'
             }`}
           >
             {resultText}
