@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 import { SPORTS } from '@/lib/sports';
 
 type IncomingRequest = {
@@ -62,6 +63,7 @@ export default function FriendsClient({
   incomingChallenges: IncomingChallenge[];
 }) {
   const router = useRouter();
+  const supabase = createClient();
 
   const [userIdInput, setUserIdInput] = useState('');
   const [sending, setSending] = useState(false);
@@ -107,6 +109,57 @@ export default function FriendsClient({
       ),
     [localIncomingChallenges, currentUserId]
   );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const refreshIncomingChallenges = async () => {
+      const { data: challengeRows, error: challengesError } = await supabase
+        .from('friend_challenges')
+        .select('id, challenger_id, challenged_id, sport, difficulty, status, created_at, responded_at')
+        .eq('challenged_id', currentUserId)
+        .eq('status', 'pending')
+        .neq('challenger_id', currentUserId)
+        .order('created_at', { ascending: false });
+
+      if (challengesError || cancelled) return;
+
+      const challengerIds = [
+        ...new Set((challengeRows ?? []).map((row) => row.challenger_id)),
+      ].filter((id) => id !== currentUserId);
+
+      let challengerProfiles: { id: string; username: string; elo: number }[] = [];
+
+      if (challengerIds.length > 0) {
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('id, username, elo')
+          .in('id', challengerIds);
+
+        challengerProfiles = profilesData ?? [];
+      }
+
+      if (cancelled) return;
+
+      const profileMap = new Map(challengerProfiles.map((p) => [p.id, p]));
+
+      const hydratedChallenges: IncomingChallenge[] = (challengeRows ?? []).map((row) => ({
+        ...row,
+        challenger: profileMap.get(row.challenger_id) ?? null,
+      }));
+
+      setLocalIncomingChallenges(hydratedChallenges);
+    };
+
+    refreshIncomingChallenges();
+
+    const interval = setInterval(refreshIncomingChallenges, 2000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [currentUserId, supabase]);
 
   const openChallengePicker = (friendId: string, friendUsername: string) => {
     setMessage('');
@@ -209,15 +262,10 @@ export default function FriendsClient({
 
       closeChallengePicker();
 
-      if (data.matchId) {
-        router.push(`/dashboard/match/${data.matchId}`);
-        router.refresh();
-        return;
-      }
-
       setMessage(
         `Challenge sent to ${friendUsername} in ${selectedSport.toUpperCase()} (${selectedDifficulty})`
       );
+
       router.refresh();
     } catch (error) {
       console.error('send challenge failed', error);
@@ -367,7 +415,12 @@ export default function FriendsClient({
       </div>
 
       <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-5">
-        <h2 className="font-display text-2xl text-bk-white mb-4">INCOMING CHALLENGES</h2>
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <h2 className="font-display text-2xl text-bk-white">INCOMING CHALLENGES</h2>
+          <span className="text-xs text-bk-gray-muted font-bold uppercase tracking-widest">
+            Live
+          </span>
+        </div>
 
         {visibleIncomingChallenges.length === 0 ? (
           <p className="text-bk-gray-muted">No incoming challenges.</p>
