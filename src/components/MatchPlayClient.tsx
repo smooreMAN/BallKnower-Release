@@ -114,12 +114,12 @@ export default function MatchPlayClient({
 
       const data = await res.json();
 
-      if (data.match) {
+      if (res.ok && data.match) {
         setMatch(data.match as MatchRow);
         setResultMatch(data.match as MatchRow);
         setIsWaiting(false);
       } else {
-        console.error('Complete route returned no match:', data);
+        console.error('Complete route failed:', data);
       }
     } catch (error) {
       console.error('Finalize match failed:', error);
@@ -148,10 +148,14 @@ export default function MatchPlayClient({
             updated.status === 'complete' ||
             updated.current_question_index >= questions.length
           ) {
-            setResultMatch(updated);
+            setResultMatch(updated.status === 'complete' ? updated : null);
             setIsWaiting(false);
             setIsCompleting(false);
             clearTimer();
+
+            if (updated.status !== 'complete') {
+              void finalizeMatch();
+            }
           }
         }
       )
@@ -181,9 +185,10 @@ export default function MatchPlayClient({
           clearTimer();
 
           if (
-            !isWaiting &&
+            answeredQuestionIndexRef.current !== match.current_question_index &&
             !isSubmitting &&
-            answeredQuestionIndexRef.current !== match.current_question_index
+            !isWaiting &&
+            !isCompleting
           ) {
             void handleSubmitAnswer(-1);
           }
@@ -260,7 +265,7 @@ export default function MatchPlayClient({
     );
   }
 
-  if (isMatchFinished) {
+  if (isMatchFinished && (resultMatch ?? match).status === 'complete') {
     const finalMatch = resultMatch ?? match;
     const iAmPlayer1 = currentUserId === finalMatch.player1_id;
     const finalMyScore = iAmPlayer1 ? finalMatch.player1_score : finalMatch.player2_score;
@@ -358,29 +363,17 @@ export default function MatchPlayClient({
   }
 
   if (!currentQuestion) {
-    if (match.current_question_index >= questions.length) {
-      if (!isCompleting) {
-        void finalizeMatch();
-      }
-
-      return (
-        <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
-          <div className="w-12 h-12 border-4 border-bk-gold border-t-transparent rounded-full animate-spin" />
-          <p className="text-bk-gray-muted font-bold">Finishing match...</p>
-        </div>
-      );
-    }
-
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
         <div className="w-12 h-12 border-4 border-bk-gold border-t-transparent rounded-full animate-spin" />
-        <p className="text-bk-gray-muted font-bold">Loading question...</p>
+        <p className="text-bk-gray-muted font-bold">Loading match...</p>
       </div>
     );
   }
 
   const progress = (match.current_question_index / questions.length) * 100;
   const timerPct = (timeLeft / SECONDS_PER_QUESTION) * 100;
+  const answered = selectedAnswer !== null;
 
   return (
     <div className="max-w-2xl mx-auto animate-slide-up">
@@ -439,9 +432,8 @@ export default function MatchPlayClient({
       <div className="space-y-3 mb-6">
         {currentQuestion.options.map((option, i) => {
           const isSelected = selectedAnswer === i;
-          const answered = selectedAnswer !== null;
-
           let className = 'answer-btn';
+
           if (answered && isSelected) {
             className += ' wrong';
           }
@@ -450,7 +442,7 @@ export default function MatchPlayClient({
             <button
               key={i}
               className={className}
-              disabled={answered || isSubmitting || isWaiting}
+              disabled={answered || isSubmitting || isWaiting || isCompleting}
               onClick={() => void handleSubmitAnswer(i)}
             >
               <span className="inline-flex items-center gap-3">

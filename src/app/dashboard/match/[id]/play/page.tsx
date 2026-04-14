@@ -21,6 +21,13 @@ type MatchRow = {
   started_at: string | null;
   winner_id: string | null;
   created_at: string;
+  completed_at: string | null;
+  player1_elo_before: number | null;
+  player2_elo_before: number | null;
+  player1_elo_after: number | null;
+  player2_elo_after: number | null;
+  player1_elo_change: number | null;
+  player2_elo_change: number | null;
 };
 
 type QuestionRow = {
@@ -28,6 +35,12 @@ type QuestionRow = {
   question: string;
   options: string[];
   correct_index: number;
+};
+
+type ProfileLite = {
+  id: string;
+  username: string;
+  elo: number;
 };
 
 export default async function MatchPlayPage({
@@ -42,106 +55,61 @@ export default async function MatchPlayPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect('/auth/login');
-  }
+  if (!user) redirect('/auth/login');
 
   const { data: match, error: matchError } = await supabase
     .from('multiplayer_matches')
-    .select(`
-      id,
-      player1_id,
-      player2_id,
-      sport,
-      difficulty,
-      status,
-      question_ids,
-      current_question_index,
-      player1_score,
-      player2_score,
-      player1_ready,
-      player2_ready,
-      started_at,
-      winner_id,
-      created_at
-    `)
+    .select('*')
     .eq('id', id)
     .single<MatchRow>();
 
   if (matchError || !match) {
-    return (
-      <div className="animate-slide-up">
-        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
-          <h1 className="font-display text-4xl text-bk-white mb-2">MATCH NOT FOUND</h1>
-          <p className="text-bk-gray-muted">This match does not exist or is no longer available.</p>
-        </div>
-      </div>
-    );
+    redirect('/dashboard');
   }
 
-  const isPlayer = match.player1_id === user.id || match.player2_id === user.id;
-
-  if (!isPlayer) {
-    return (
-      <div className="animate-slide-up">
-        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
-          <h1 className="font-display text-4xl text-bk-white mb-2">NO ACCESS</h1>
-          <p className="text-bk-gray-muted">You are not a player in this match.</p>
-        </div>
-      </div>
-    );
+  if (user.id !== match.player1_id && user.id !== match.player2_id) {
+    redirect('/dashboard');
   }
 
   if (!match.started_at) {
     redirect(`/dashboard/match/${match.id}`);
   }
 
-  if (match.status === 'completed') {
-    redirect(`/dashboard/match/${match.id}/results`);
-  }
-
   const questionIds = Array.isArray(match.question_ids) ? match.question_ids : [];
 
-  if (questionIds.length === 0) {
-    return (
-      <div className="animate-slide-up">
-        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
-          <h1 className="font-display text-4xl text-bk-white mb-2">NO QUESTIONS FOUND</h1>
-          <p className="text-bk-gray-muted">This match has no questions assigned.</p>
-        </div>
-      </div>
-    );
-  }
-
-  const { data: questionsData, error: questionsError } = await supabase
+  const { data: questionsData } = await supabase
     .from('questions')
     .select('id, question, options, correct_index')
     .in('id', questionIds);
 
-  if (questionsError) {
-    return (
-      <div className="animate-slide-up">
-        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
-          <h1 className="font-display text-4xl text-bk-white mb-2">QUESTION LOAD ERROR</h1>
-          <p className="text-bk-gray-muted">Could not load match questions.</p>
-        </div>
-      </div>
-    );
-  }
-
-  const questionMap = new Map<string, QuestionRow>(
-    (questionsData ?? []).map((q) => [q.id, q as QuestionRow])
-  );
-
+  const questionsMap = new Map((questionsData ?? []).map((q) => [q.id, q as QuestionRow]));
   const orderedQuestions = questionIds
-    .map((qid) => questionMap.get(qid))
-    .filter((q): q is QuestionRow => Boolean(q));
+    .map((qid) => questionsMap.get(qid))
+    .filter(Boolean) as QuestionRow[];
+
+  const { data: player1Profile } = await supabase
+    .from('profiles')
+    .select('id, username, elo')
+    .eq('id', match.player1_id)
+    .single<ProfileLite>();
+
+  const { data: player2Profile } = await supabase
+    .from('profiles')
+    .select('id, username, elo')
+    .eq('id', match.player2_id)
+    .single<ProfileLite>();
+
+  if (!player1Profile || !player2Profile) {
+    redirect('/dashboard');
+  }
 
   return (
     <MatchPlayClient
-      currentUserId={user.id}
       initialMatch={match}
-      questions={orderedQuestions}
+      initialQuestions={orderedQuestions}
+      currentUserId={user.id}
+      player1Profile={player1Profile}
+      player2Profile={player2Profile}
     />
   );
 }
