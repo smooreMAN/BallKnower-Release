@@ -22,8 +22,11 @@ type MatchRecord = {
   current_question_index: number;
   player1_score: number;
   player2_score: number;
+  player1_ready: boolean;
+  player2_ready: boolean;
   status: 'pending' | 'active' | 'complete' | 'abandoned';
   winner_id: string | null;
+  started_at?: string | null;
   completed_at: string | null;
   created_at: string;
 };
@@ -238,7 +241,7 @@ export default function MultiplayerGameScreen({
   }, [currentIndex, match.status, myAnswer, currentQuestion]);
 
   useEffect(() => {
-    if (match.status !== 'active') return;
+    if (match.status !== 'active' && match.status !== 'pending') return;
 
     const interval = setInterval(() => {
       void refreshMatch();
@@ -256,6 +259,79 @@ export default function MultiplayerGameScreen({
 
     return () => clearTimeout(timeout);
   }, [bothAnswered, currentIndex, match.status]);
+
+  if (match.status === 'pending') {
+    const meReady = iAmPlayer1 ? match.player1_ready : match.player2_ready;
+    const opponentReady = iAmPlayer1 ? match.player2_ready : match.player1_ready;
+
+    return (
+      <div className="max-w-2xl mx-auto animate-pop-in">
+        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
+          <p className="text-bk-gray-muted text-xs uppercase tracking-widest font-bold mb-3">
+            Match Lobby
+          </p>
+
+          <h1 className="font-display text-5xl text-bk-white tracking-wide mb-3">
+            GET READY
+          </h1>
+
+          <p className="text-bk-gray-muted text-lg mb-6">
+            Waiting for both players to be ready
+          </p>
+
+          <div className="space-y-3 mb-8">
+            <div className="flex items-center justify-between bg-bk-black rounded-xl px-4 py-4">
+              <span className="font-bold text-bk-white">You</span>
+              <span className={meReady ? 'text-green-400 font-bold' : 'text-yellow-400 font-bold'}>
+                {meReady ? 'READY' : 'NOT READY'}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between bg-bk-black rounded-xl px-4 py-4">
+              <span className="font-bold text-bk-white">
+                {players.opponent?.username ?? 'Opponent'}
+              </span>
+              <span className={opponentReady ? 'text-green-400 font-bold' : 'text-yellow-400 font-bold'}>
+                {opponentReady ? 'READY' : 'NOT READY'}
+              </span>
+            </div>
+          </div>
+
+          <button
+            onClick={async () => {
+              try {
+                setError('');
+                const res = await fetch(`/api/match/${match.id}/ready`, {
+                  method: 'POST',
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                  throw new Error(data.error || 'Failed to mark ready');
+                }
+
+                await refreshMatch();
+              } catch (err) {
+                console.error(err);
+                setError(err instanceof Error ? err.message : 'Failed to mark ready');
+              }
+            }}
+            disabled={meReady}
+            className="w-full bg-bk-gold text-bk-black font-display text-2xl tracking-wider py-4 rounded-2xl hover:bg-bk-gold-dark transition-all duration-200 active:scale-95 disabled:opacity-50"
+          >
+            {meReady ? 'WAITING FOR OPPONENT...' : 'I AM READY'}
+          </button>
+
+          {error && (
+            <div className="mt-4 bg-red-900/30 border border-red-700 rounded-xl px-4 py-3 text-red-400 text-sm">
+              {error}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   if (match.status === 'complete' || currentIndex >= questions.length) {
     const banner =
