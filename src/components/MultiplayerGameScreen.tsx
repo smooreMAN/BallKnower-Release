@@ -22,7 +22,7 @@ type MatchRecord = {
   current_question_index: number;
   player1_score: number;
   player2_score: number;
-  status: 'active' | 'complete' | 'abandoned';
+  status: 'pending' | 'active' | 'complete' | 'abandoned';
   winner_id: string | null;
   completed_at: string | null;
   created_at: string;
