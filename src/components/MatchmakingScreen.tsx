@@ -50,7 +50,7 @@ export default function MatchmakingScreen() {
 
         if (queueEntry?.match_id) {
           clearPoll();
-          router.push(`/dashboard/match/${queueEntry.match_id}`);
+          router.push(`/dashboard/match/${queueEntry.match_id}/play`);
           router.refresh();
           return;
         }
@@ -89,7 +89,7 @@ export default function MatchmakingScreen() {
 
       if (data.status === 'matched' && data.matchId) {
         clearPoll();
-        router.push(`/dashboard/match/${data.matchId}`);
+        router.push(`/dashboard/match/${data.matchId}/play`);
         router.refresh();
         return;
       }

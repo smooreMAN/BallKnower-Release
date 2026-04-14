@@ -69,7 +69,7 @@ export default function MatchLobbyClient({
           !redirecting
         ) {
           setRedirecting(true);
-          router.push(`/dashboard/match/${data.id}`);
+          router.push(`/dashboard/match/${data.id}/play`);
         }
       }
     }, 1500);
@@ -112,7 +112,7 @@ export default function MatchLobbyClient({
           !redirecting
         ) {
           setRedirecting(true);
-          router.push(`/dashboard/match/${refreshedMatch.id}`);
+          router.push(`/dashboard/match/${refreshedMatch.id}/play`);
           return;
         }
       }
