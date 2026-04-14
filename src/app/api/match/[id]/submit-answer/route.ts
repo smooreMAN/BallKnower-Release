@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { calculatePointsFromTimeLeft, SECONDS_PER_QUESTION } from '@/lib/sports';
+import { SECONDS_PER_QUESTION, calculatePointsFromTimeLeft } from '@/lib/sports';
 
 type MatchRow = {
   id: string;
@@ -24,15 +24,19 @@ export async function POST(
 ) {
   try {
     const { id } = await context.params;
-    const body = (await req.json()) as { answerIndex: number; timeLeft?: number };
-
-    const answerIndex = body.answerIndex;
-    const rawTimeLeft = typeof body.timeLeft === 'number' ? body.timeLeft : 0;
-    const safeTimeLeft = Math.max(0, Math.min(SECONDS_PER_QUESTION, Math.floor(rawTimeLeft)));
+    const { answerIndex, timeLeft } = (await req.json()) as {
+      answerIndex: number;
+      timeLeft?: number;
+    };
 
     if (typeof answerIndex !== 'number') {
       return NextResponse.json({ error: 'Invalid answerIndex' }, { status: 400 });
     }
+
+    const safeTimeLeft =
+      typeof timeLeft === 'number'
+        ? Math.max(0, Math.min(SECONDS_PER_QUESTION, Math.floor(timeLeft)))
+        : 0;
 
     const supabase = await createClient();
 
@@ -94,6 +98,7 @@ export async function POST(
     }
 
     const isCorrect = answerIndex === question.correct_index;
+    const pointsEarned = isCorrect ? calculatePointsFromTimeLeft(safeTimeLeft) : 0;
 
     const { error: insertError } = await supabase
       .from('multiplayer_answers')
@@ -111,7 +116,7 @@ export async function POST(
 
     const { data: allAnswersForQuestion, error: allAnswersError } = await supabase
       .from('multiplayer_answers')
-      .select('player_id, answer_index, is_correct')
+      .select('player_id, is_correct')
       .eq('match_id', id)
       .eq('question_index', questionIndex);
 
@@ -119,33 +124,35 @@ export async function POST(
       return NextResponse.json({ error: allAnswersError.message }, { status: 500 });
     }
 
-    const uniquePlayersAnswered = new Set((allAnswersForQuestion ?? []).map((a) => a.player_id));
-    const bothAnswered = uniquePlayersAnswered.size >= 2;
+    const bothAnswered = (allAnswersForQuestion?.length ?? 0) >= 2;
 
     if (!bothAnswered) {
       return NextResponse.json({
         success: true,
         waiting: true,
         isCorrect,
+        pointsEarned,
       });
     }
 
-    const player1Answer = allAnswersForQuestion?.find((a) => a.player_id === match.player1_id);
-    const player2Answer = allAnswersForQuestion?.find((a) => a.player_id === match.player2_id);
+    const player1AnsweredCorrectly = !!allAnswersForQuestion?.find(
+      (a) => a.player_id === match.player1_id && a.is_correct
+    );
 
-    const player1Points =
-      player1Answer?.is_correct
-        ? user.id === match.player1_id
-          ? calculatePointsFromTimeLeft(safeTimeLeft)
-          : 1
-        : 0;
+    const player2AnsweredCorrectly = !!allAnswersForQuestion?.find(
+      (a) => a.player_id === match.player2_id && a.is_correct
+    );
 
-    const player2Points =
-      player2Answer?.is_correct
-        ? user.id === match.player2_id
-          ? calculatePointsFromTimeLeft(safeTimeLeft)
-          : 1
-        : 0;
+    let player1Points = 0;
+    let player2Points = 0;
+
+    if (user.id === match.player1_id) {
+      player1Points = pointsEarned;
+      player2Points = player2AnsweredCorrectly ? 1 : 0;
+    } else {
+      player2Points = pointsEarned;
+      player1Points = player1AnsweredCorrectly ? 1 : 0;
+    }
 
     const nextPlayer1Score = match.player1_score + player1Points;
     const nextPlayer2Score = match.player2_score + player2Points;
@@ -175,6 +182,7 @@ export async function POST(
       success: true,
       waiting: false,
       isCorrect,
+      pointsEarned,
       done: isLastQuestion,
       match: updatedMatch,
     });

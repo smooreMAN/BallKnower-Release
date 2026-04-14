@@ -69,7 +69,7 @@ export default function MatchLobbyClient({
           !redirecting
         ) {
           setRedirecting(true);
-          router.push(`/dashboard/match/${data.id}/play`);
+          router.push(`/dashboard/match/${data.id}`);
         }
       }
     }, 1500);
@@ -84,12 +84,8 @@ export default function MatchLobbyClient({
     try {
       const res = await fetch('/api/match/ready', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          matchId: match.id,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ matchId: match.id }),
       });
 
       const data = await res.json();
@@ -116,7 +112,7 @@ export default function MatchLobbyClient({
           !redirecting
         ) {
           setRedirecting(true);
-          router.push(`/dashboard/match/${refreshedMatch.id}/play`);
+          router.push(`/dashboard/match/${refreshedMatch.id}`);
           return;
         }
       }

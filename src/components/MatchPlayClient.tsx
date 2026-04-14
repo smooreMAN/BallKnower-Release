@@ -99,15 +99,12 @@ export default function MatchPlayClient({
   }, [questions, match.current_question_index]);
 
   const clearTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
+    if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = null;
   };
 
   const finalizeMatch = async () => {
     if (completingRef.current) return;
-
     completingRef.current = true;
     setIsCompleting(true);
     clearTimer();
@@ -128,9 +125,9 @@ export default function MatchPlayClient({
         setResultMatch(data.match as MatchRow);
         setIsWaiting(false);
       }
-    } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? err.message : 'Failed to complete match');
+    } catch (error) {
+      console.error('Finalize match failed:', error);
+      setError(error instanceof Error ? error.message : 'Failed to finalize match');
     } finally {
       setIsCompleting(false);
       completingRef.current = false;
@@ -150,8 +147,6 @@ export default function MatchPlayClient({
         },
         (payload) => {
           const updated = payload.new as MatchRow;
-          const previousIndex = match.current_question_index;
-
           setMatch(updated);
 
           if (
@@ -162,16 +157,12 @@ export default function MatchPlayClient({
             setIsWaiting(false);
             setIsCompleting(false);
             clearTimer();
-            return;
-          }
-
-          if (updated.current_question_index !== previousIndex) {
+          } else if (updated.current_question_index !== match.current_question_index) {
             setSelectedAnswer(null);
             setSubmittedTimeLeft(null);
             setIsSubmitting(false);
             setIsWaiting(false);
             answeredQuestionIndexRef.current = null;
-            setError('');
           }
         }
       )
@@ -199,8 +190,8 @@ export default function MatchPlayClient({
           clearTimer();
 
           if (
-            !isSubmitting &&
             !isWaiting &&
+            !isSubmitting &&
             answeredQuestionIndexRef.current !== match.current_question_index
           ) {
             void handleSubmitAnswer(-1, 0);
@@ -214,14 +205,7 @@ export default function MatchPlayClient({
     }, 1000);
 
     return clearTimer;
-  }, [
-    match.current_question_index,
-    match.status,
-    isMatchFinished,
-    currentQuestion,
-    isSubmitting,
-    isWaiting,
-  ]);
+  }, [match.current_question_index, match.status, isMatchFinished, currentQuestion, isWaiting, isSubmitting]);
 
   useEffect(() => {
     if (
@@ -238,29 +222,25 @@ export default function MatchPlayClient({
     if (!currentQuestion) return;
     if (isSubmitting || isWaiting || isCompleting) return;
     if (answeredQuestionIndexRef.current === match.current_question_index) return;
-    if (match.status !== 'active' && match.status !== 'finishing') return;
 
     answeredQuestionIndexRef.current = match.current_question_index;
     setSelectedAnswer(answerIndex);
     setSubmittedTimeLeft(answerTimeLeft);
     setIsSubmitting(true);
-    setError('');
     clearTimer();
+    setError('');
 
     try {
       const res = await fetch(`/api/match/${match.id}/submit-answer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          answerIndex,
-          timeLeft: answerTimeLeft,
-        }),
+        body: JSON.stringify({ answerIndex, timeLeft: answerTimeLeft }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to submit answer');
+        throw new Error(data.error || 'Submit failed');
       }
 
       if (data.match) {
@@ -278,9 +258,9 @@ export default function MatchPlayClient({
       } else {
         setIsWaiting(false);
       }
-    } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? err.message : 'Failed to submit answer');
+    } catch (error) {
+      console.error('Submit answer failed:', error);
+      setError(error instanceof Error ? error.message : 'Failed to submit answer');
       answeredQuestionIndexRef.current = null;
     } finally {
       setIsSubmitting(false);
@@ -298,19 +278,12 @@ export default function MatchPlayClient({
 
   if (isMatchFinished) {
     const finalMatch = resultMatch ?? match;
-    const finalIsPlayer1 = currentUserId === finalMatch.player1_id;
-    const finalMyScore = finalIsPlayer1 ? finalMatch.player1_score : finalMatch.player2_score;
-    const finalOppScore = finalIsPlayer1 ? finalMatch.player2_score : finalMatch.player1_score;
-    const myEloBefore = finalIsPlayer1
-      ? finalMatch.player1_elo_before
-      : finalMatch.player2_elo_before;
-    const myEloAfter = finalIsPlayer1
-      ? finalMatch.player1_elo_after
-      : finalMatch.player2_elo_after;
-    const myEloChange = finalIsPlayer1
-      ? finalMatch.player1_elo_change
-      : finalMatch.player2_elo_change;
-
+    const iAmPlayer1 = currentUserId === finalMatch.player1_id;
+    const finalMyScore = iAmPlayer1 ? finalMatch.player1_score : finalMatch.player2_score;
+    const finalOppScore = iAmPlayer1 ? finalMatch.player2_score : finalMatch.player1_score;
+    const myEloBefore = iAmPlayer1 ? finalMatch.player1_elo_before : finalMatch.player2_elo_before;
+    const myEloAfter = iAmPlayer1 ? finalMatch.player1_elo_after : finalMatch.player2_elo_after;
+    const myEloChange = iAmPlayer1 ? finalMatch.player1_elo_change : finalMatch.player2_elo_change;
     const iWon = finalMatch.winner_id === currentUserId;
     const isTie = finalMatch.winner_id === null;
     const newTier = myEloAfter ? getTier(myEloAfter) : null;
@@ -351,7 +324,6 @@ export default function MatchPlayClient({
                 {myEloBefore ?? me.elo}
               </div>
             </div>
-
             <div>
               <div
                 className={`font-display text-5xl ${
@@ -362,7 +334,6 @@ export default function MatchPlayClient({
                 {myEloChange ?? 0}
               </div>
             </div>
-
             <div>
               <div className="text-bk-gray-muted text-sm mb-1">After</div>
               <div
@@ -384,33 +355,6 @@ export default function MatchPlayClient({
           )}
         </div>
 
-        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-5 mb-6">
-          <h2 className="font-display text-xl text-bk-white tracking-wide mb-3">
-            MATCH SUMMARY
-          </h2>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-bk-black rounded-xl p-4 text-center">
-              <p className="text-bk-gray-muted text-xs uppercase tracking-widest font-bold mb-1">
-                Your Score
-              </p>
-              <p className="font-display text-4xl text-green-400">{finalMyScore}</p>
-            </div>
-
-            <div className="bg-bk-black rounded-xl p-4 text-center">
-              <p className="text-bk-gray-muted text-xs uppercase tracking-widest font-bold mb-1">
-                Opponent
-              </p>
-              <p className="font-display text-4xl text-red-400">{finalOppScore}</p>
-            </div>
-          </div>
-
-          <p className="text-bk-gray-muted text-sm mt-4 text-center">
-            Multiplayer now uses the same speed scoring system as solo:
-            <span className="text-bk-white font-bold"> 3 / 2 / 1 points</span> based on how fast you answer.
-          </p>
-        </div>
-
         <div className="flex gap-4">
           <button
             onClick={() => router.push('/dashboard/friends')}
@@ -418,7 +362,6 @@ export default function MatchPlayClient({
           >
             PLAY AGAIN
           </button>
-
           <button
             onClick={() => router.push('/dashboard')}
             className="px-6 border-2 border-bk-gray-light text-bk-white font-bold rounded-2xl hover:border-bk-gold hover:text-bk-gold transition-all duration-200"
@@ -432,14 +375,16 @@ export default function MatchPlayClient({
 
   if (!currentQuestion) {
     return (
-      <div className="max-w-2xl mx-auto py-16 text-center">
-        <div className="w-12 h-12 border-4 border-bk-gold border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-bk-gray-muted font-bold">Loading match...</p>
+      <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
+        <div className="w-12 h-12 border-4 border-bk-gold border-t-transparent rounded-full animate-spin" />
+        <p className="text-bk-gray-muted font-bold">Loading question...</p>
       </div>
     );
   }
 
+  const progress = (match.current_question_index / questions.length) * 100;
   const timerPct = (timeLeft / SECONDS_PER_QUESTION) * 100;
+  const answered = selectedAnswer !== null;
   const selectedWasCorrect =
     selectedAnswer !== null && selectedAnswer === currentQuestion.correct_index;
   const earnedPoints =
@@ -452,7 +397,7 @@ export default function MatchPlayClient({
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <span className="text-bk-gray-muted text-sm font-bold">
-            Q {Math.min(match.current_question_index + 1, questions.length)}/{questions.length}
+            Q {match.current_question_index + 1}/{questions.length}
           </span>
           <span className="text-bk-gray-muted text-sm capitalize">
             {match.sport.replace('_', ' ')} · {match.difficulty}
@@ -460,7 +405,9 @@ export default function MatchPlayClient({
         </div>
 
         <div className="flex items-center gap-4 text-sm font-bold">
-          <span className="text-green-400">You {myScore}</span>
+          <span className="text-green-400">
+            {me.username} {myScore}
+          </span>
           <span className="text-bk-gray-muted">vs</span>
           <span className="text-red-400">
             {oppScore} {opponent.username}
@@ -471,9 +418,7 @@ export default function MatchPlayClient({
       <div className="w-full bg-bk-gray-light rounded-full h-1.5 mb-2">
         <div
           className="h-1.5 rounded-full bg-bk-gold transition-all duration-300"
-          style={{
-            width: `${(match.current_question_index / questions.length) * 100}%`,
-          }}
+          style={{ width: `${progress}%` }}
         />
       </div>
 
@@ -481,15 +426,14 @@ export default function MatchPlayClient({
         <div className="flex-1 bg-bk-gray rounded-full h-2 overflow-hidden">
           <div
             className={`h-2 rounded-full transition-all duration-1000 ${
-              timeLeft <= 3 ? 'bg-red-500' : timeLeft <= 6 ? 'bg-yellow-500' : 'bg-bk-gold'
+              timeLeft <= 5 ? 'bg-red-500' : timeLeft <= 10 ? 'bg-yellow-500' : 'bg-bk-gold'
             }`}
             style={{ width: `${timerPct}%` }}
           />
         </div>
-
         <span
           className={`ml-3 font-display text-xl w-6 text-right ${
-            timeLeft <= 3 ? 'text-red-400' : 'text-bk-gray-muted'
+            timeLeft <= 5 ? 'text-red-400' : 'text-bk-gray-muted'
           }`}
         >
           {timeLeft}
@@ -505,11 +449,11 @@ export default function MatchPlayClient({
       <div className="space-y-3 mb-6">
         {currentQuestion.options.map((option, i) => {
           const isSelected = selectedAnswer === i;
-          const answered = selectedAnswer !== null;
+          const isCorrect = i === currentQuestion.correct_index;
 
           let className = 'answer-btn';
           if (answered) {
-            if (i === currentQuestion.correct_index) className += ' correct';
+            if (isCorrect) className += ' correct';
             else if (isSelected) className += ' wrong';
           }
 
@@ -517,19 +461,15 @@ export default function MatchPlayClient({
             <button
               key={i}
               className={className}
-              disabled={answered || isSubmitting || isWaiting || isCompleting}
-              onClick={() => {
-                if (!answered) {
-                  void handleSubmitAnswer(i, timeLeft);
-                }
-              }}
+              disabled={answered || isSubmitting || isWaiting}
+              onClick={() => void handleSubmitAnswer(i, timeLeft)}
             >
               <span className="inline-flex items-center gap-3">
                 <span
                   className={`w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 transition-colors ${
-                    answered && i === currentQuestion.correct_index
+                    answered && isCorrect
                       ? 'bg-green-500 text-white'
-                      : answered && isSelected && i !== currentQuestion.correct_index
+                      : answered && isSelected && !isCorrect
                       ? 'bg-red-500 text-white'
                       : 'bg-bk-gray-light text-bk-gray-muted'
                   }`}
@@ -543,7 +483,7 @@ export default function MatchPlayClient({
         })}
       </div>
 
-      {selectedAnswer !== null && (
+      {answered && (
         <div className="mb-4 text-center">
           {selectedWasCorrect ? (
             <span className="text-green-400 font-bold text-lg">
@@ -552,21 +492,17 @@ export default function MatchPlayClient({
           ) : (
             <span className="text-red-400 font-bold text-lg">
               ✗ Wrong
-              {selectedAnswer === -1 ? (
+              {selectedAnswer === -1 && (
                 <span className="text-bk-gray-muted text-sm ml-2">(time&apos;s up)</span>
-              ) : null}
+              )}
             </span>
           )}
         </div>
       )}
 
       {isWaiting && (
-        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-5 text-center">
-          <div className="w-10 h-10 border-4 border-bk-gold border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="font-bold text-bk-white">Waiting for {opponent.username}...</p>
-          <p className="text-bk-gray-muted text-sm mt-1">
-            Scores update automatically when both answers are in.
-          </p>
+        <div className="text-center">
+          <span className="text-bk-gray-muted font-bold">Waiting for opponent...</span>
         </div>
       )}
 
