@@ -1,9 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import MatchLobbyClient from '@/components/MatchLobbyClient';
-
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+import MatchPlayClient from '@/components/MatchPlayClient';
 
 type MatchRow = {
   id: string;
@@ -12,80 +9,103 @@ type MatchRow = {
   sport: string;
   difficulty: string;
   status: string;
+  question_ids: string[];
+  current_question_index: number;
+  player1_score: number;
+  player2_score: number;
   player1_ready: boolean;
   player2_ready: boolean;
   started_at: string | null;
+  winner_id: string | null;
   created_at: string;
+  completed_at: string | null;
+  player1_elo_before: number | null;
+  player2_elo_before: number | null;
+  player1_elo_after: number | null;
+  player2_elo_after: number | null;
+  player1_elo_change: number | null;
+  player2_elo_change: number | null;
 };
 
-export default async function MatchPage({
+type QuestionRow = {
+  id: string;
+  question: string;
+  options: string[];
+  correct_index: number;
+};
+
+type ProfileLite = {
+  id: string;
+  username: string;
+  elo: number;
+};
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+export default async function MatchPlayPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-
   const supabase = await createClient();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect('/auth/login');
-  }
+  if (!user) redirect('/auth/login');
 
   const { data: match, error: matchError } = await supabase
     .from('multiplayer_matches')
-    .select(
-      'id, player1_id, player2_id, sport, difficulty, status, player1_ready, player2_ready, started_at, created_at'
-    )
+    .select('*')
     .eq('id', id)
-    .single();
+    .single<MatchRow>();
 
   if (matchError || !match) {
-    return (
-      <div className="animate-slide-up">
-        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
-          <h1 className="font-display text-4xl text-bk-white mb-2">MATCH NOT FOUND</h1>
-          <p className="text-bk-gray-muted">This match does not exist or is no longer available.</p>
-        </div>
-      </div>
-    );
+    redirect('/dashboard');
   }
 
-  if (match.player1_id !== user.id && match.player2_id !== user.id) {
-    return (
-      <div className="animate-slide-up">
-        <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
-          <h1 className="font-display text-4xl text-bk-white mb-2">NO ACCESS</h1>
-          <p className="text-bk-gray-muted">You are not a player in this match.</p>
-        </div>
-      </div>
-    );
+  if (user.id !== match.player1_id && user.id !== match.player2_id) {
+    redirect('/dashboard');
   }
 
-  if (match.started_at) {
-    redirect(`/dashboard/match/${match.id}/play`);
-  }
+  const questionIds = Array.isArray(match.question_ids) ? match.question_ids : [];
 
-  const opponentId = match.player1_id === user.id ? match.player2_id : match.player1_id;
+  const { data: questionsData } = await supabase
+    .from('questions')
+    .select('id, question, options, correct_index')
+    .in('id', questionIds);
 
-  const { data: opponent } = await supabase
+  const questionsMap = new Map((questionsData ?? []).map((q) => [q.id, q as QuestionRow]));
+  const orderedQuestions = questionIds
+    .map((qid) => questionsMap.get(qid))
+    .filter(Boolean) as QuestionRow[];
+
+  const { data: player1Profile } = await supabase
     .from('profiles')
     .select('id, username, elo')
-    .eq('id', opponentId)
-    .single();
+    .eq('id', match.player1_id)
+    .single<ProfileLite>();
+
+  const { data: player2Profile } = await supabase
+    .from('profiles')
+    .select('id, username, elo')
+    .eq('id', match.player2_id)
+    .single<ProfileLite>();
+
+  if (!player1Profile || !player2Profile) {
+    redirect('/dashboard');
+  }
 
   return (
-    <MatchLobbyClient
-      initialMatch={match as MatchRow}
+    <MatchPlayClient
+      initialMatch={match}
+      initialQuestions={orderedQuestions}
       currentUserId={user.id}
-      opponent={{
-        id: opponent?.id ?? opponentId,
-        username: opponent?.username ?? 'Opponent',
-        elo: opponent?.elo ?? 1200,
-      }}
+      player1Profile={player1Profile}
+      player2Profile={player2Profile}
     />
   );
 }
