@@ -77,6 +77,7 @@ export default function MatchPlayClient({
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const answeredQuestionIndexRef = useRef<number | null>(null);
+  const completingRef = useRef(false);
 
   const isPlayer1 = currentUserId === match.player1_id;
   const me = isPlayer1 ? player1Profile : player2Profile;
@@ -85,13 +86,47 @@ export default function MatchPlayClient({
   const myScore = isPlayer1 ? match.player1_score : match.player2_score;
   const oppScore = isPlayer1 ? match.player2_score : match.player1_score;
 
+  const isMatchFinished =
+    !!resultMatch ||
+    match.status === 'complete' ||
+    match.current_question_index >= questions.length;
+
   const currentQuestion = useMemo(() => {
+    if (match.current_question_index >= questions.length) return null;
     return questions[match.current_question_index] ?? null;
   }, [questions, match.current_question_index]);
 
   const clearTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = null;
+  };
+
+  const finalizeMatch = async () => {
+    if (completingRef.current) return;
+    completingRef.current = true;
+    setIsCompleting(true);
+    clearTimer();
+
+    try {
+      const res = await fetch(`/api/match/${match.id}/complete`, {
+        method: 'POST',
+      });
+
+      const data = await res.json();
+
+      if (data.match) {
+        setMatch(data.match as MatchRow);
+        setResultMatch(data.match as MatchRow);
+        setIsWaiting(false);
+      } else {
+        console.error('Complete route returned no match:', data);
+      }
+    } catch (error) {
+      console.error('Finalize match failed:', error);
+    } finally {
+      setIsCompleting(false);
+      completingRef.current = false;
+    }
   };
 
   useEffect(() => {
@@ -106,11 +141,17 @@ export default function MatchPlayClient({
           filter: `id=eq.${match.id}`,
         },
         (payload) => {
-          setMatch(payload.new as MatchRow);
-          if ((payload.new as MatchRow).status === 'complete') {
-            setResultMatch(payload.new as MatchRow);
+          const updated = payload.new as MatchRow;
+          setMatch(updated);
+
+          if (
+            updated.status === 'complete' ||
+            updated.current_question_index >= questions.length
+          ) {
+            setResultMatch(updated);
             setIsWaiting(false);
             setIsCompleting(false);
+            clearTimer();
           }
         }
       )
@@ -119,10 +160,10 @@ export default function MatchPlayClient({
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [supabase, match.id]);
+  }, [supabase, match.id, questions.length]);
 
   useEffect(() => {
-    if (resultMatch || match.status === 'complete') {
+    if (isMatchFinished) {
       clearTimer();
       return;
     }
@@ -130,6 +171,7 @@ export default function MatchPlayClient({
     setTimeLeft(SECONDS_PER_QUESTION);
     setSelectedAnswer(null);
     setIsSubmitting(false);
+    setIsWaiting(false);
     answeredQuestionIndexRef.current = null;
     clearTimer();
 
@@ -154,37 +196,22 @@ export default function MatchPlayClient({
     }, 1000);
 
     return clearTimer;
-  }, [match.current_question_index, match.status, resultMatch]);
+  }, [match.current_question_index, match.status, isMatchFinished]);
 
   useEffect(() => {
     if (
       !resultMatch &&
-      match.current_question_index >= questions.length &&
-      match.status !== 'complete' &&
-      !isCompleting
+      (match.status === 'finishing' ||
+        match.status === 'complete' ||
+        match.current_question_index >= questions.length)
     ) {
-      clearTimer();
-      setIsCompleting(true);
-
-      void fetch(`/api/match/${match.id}/complete`, {
-        method: 'POST',
-      })
-        .then(async (res) => {
-          const data = await res.json();
-          if (data.match) {
-            setResultMatch(data.match as MatchRow);
-            setMatch(data.match as MatchRow);
-          }
-        })
-        .finally(() => {
-          setIsCompleting(false);
-        });
+      void finalizeMatch();
     }
-  }, [match, questions.length, resultMatch, isCompleting]);
+  }, [match.status, match.current_question_index, questions.length, resultMatch]);
 
   const handleSubmitAnswer = async (answerIndex: number) => {
     if (!currentQuestion) return;
-    if (isSubmitting || isWaiting) return;
+    if (isSubmitting || isWaiting || isCompleting) return;
     if (answeredQuestionIndexRef.current === match.current_question_index) return;
 
     answeredQuestionIndexRef.current = match.current_question_index;
@@ -209,20 +236,7 @@ export default function MatchPlayClient({
 
       if (data.done) {
         setIsSubmitting(false);
-        setIsCompleting(true);
-
-        const completeRes = await fetch(`/api/match/${match.id}/complete`, {
-          method: 'POST',
-        });
-
-        const completeData = await completeRes.json();
-
-        if (completeData.match) {
-          setResultMatch(completeData.match as MatchRow);
-          setMatch(completeData.match as MatchRow);
-        }
-
-        setIsCompleting(false);
+        await finalizeMatch();
         return;
       }
 
@@ -246,7 +260,7 @@ export default function MatchPlayClient({
     );
   }
 
-  if (resultMatch || match.status === 'complete') {
+  if (isMatchFinished) {
     const finalMatch = resultMatch ?? match;
     const iAmPlayer1 = currentUserId === finalMatch.player1_id;
     const finalMyScore = iAmPlayer1 ? finalMatch.player1_score : finalMatch.player2_score;
@@ -286,10 +300,13 @@ export default function MatchPlayClient({
           <p className="text-bk-gray-muted text-xs uppercase tracking-widest font-bold mb-3">
             Rating Change
           </p>
+
           <div className="flex items-center justify-center gap-6">
             <div>
               <div className="text-bk-gray-muted text-sm mb-1">Before</div>
-              <div className="font-display text-4xl text-bk-white">{myEloBefore ?? me.elo}</div>
+              <div className="font-display text-4xl text-bk-white">
+                {myEloBefore ?? me.elo}
+              </div>
             </div>
             <div>
               <div
@@ -303,7 +320,10 @@ export default function MatchPlayClient({
             </div>
             <div>
               <div className="text-bk-gray-muted text-sm mb-1">After</div>
-              <div className="font-display text-4xl" style={{ color: newTier?.color ?? '#F5F0E8' }}>
+              <div
+                className="font-display text-4xl"
+                style={{ color: newTier?.color ?? '#F5F0E8' }}
+              >
                 {myEloAfter ?? me.elo}
               </div>
             </div>
@@ -338,6 +358,19 @@ export default function MatchPlayClient({
   }
 
   if (!currentQuestion) {
+    if (match.current_question_index >= questions.length) {
+      if (!isCompleting) {
+        void finalizeMatch();
+      }
+
+      return (
+        <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
+          <div className="w-12 h-12 border-4 border-bk-gold border-t-transparent rounded-full animate-spin" />
+          <p className="text-bk-gray-muted font-bold">Finishing match...</p>
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center gap-4">
         <div className="w-12 h-12 border-4 border-bk-gold border-t-transparent rounded-full animate-spin" />
@@ -360,6 +393,7 @@ export default function MatchPlayClient({
             {match.sport.replace('_', ' ')} · {match.difficulty}
           </span>
         </div>
+
         <div className="flex items-center gap-4 text-sm font-bold">
           <span className="text-green-400">
             {me.username} {myScore}
@@ -397,7 +431,9 @@ export default function MatchPlayClient({
       </div>
 
       <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-6 mb-6 animate-pop-in">
-        <p className="text-bk-white text-xl font-bold leading-relaxed">{currentQuestion.question}</p>
+        <p className="text-bk-white text-xl font-bold leading-relaxed">
+          {currentQuestion.question}
+        </p>
       </div>
 
       <div className="space-y-3 mb-6">
