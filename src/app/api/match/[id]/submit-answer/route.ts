@@ -18,6 +18,12 @@ type QuestionRow = {
   correct_index: number;
 };
 
+type MultiplayerAnswerRow = {
+  player_id: string;
+  is_correct: boolean;
+  answer_time_left: number | null;
+};
+
 export async function POST(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
@@ -70,7 +76,7 @@ export async function POST(
     const questionIndex = match.current_question_index;
 
     if (questionIndex >= questionIds.length) {
-      return NextResponse.json({ done: true });
+      return NextResponse.json({ done: true, match });
     }
 
     const questionId = questionIds[questionIndex];
@@ -98,61 +104,65 @@ export async function POST(
     }
 
     const isCorrect = answerIndex === question.correct_index;
-    const pointsEarned = isCorrect ? calculatePointsFromTimeLeft(safeTimeLeft) : 0;
 
-    const { error: insertError } = await supabase
-      .from('multiplayer_answers')
-      .insert({
-        match_id: id,
-        question_index: questionIndex,
-        player_id: user.id,
-        answer_index: answerIndex,
-        is_correct: isCorrect,
-      });
+    const { error: insertError } = await supabase.from('multiplayer_answers').insert({
+      match_id: id,
+      question_index: questionIndex,
+      player_id: user.id,
+      answer_index: answerIndex,
+      is_correct: isCorrect,
+      answer_time_left: safeTimeLeft,
+    });
 
     if (insertError) {
-      return NextResponse.json({ error: insertError.message }, { status: 500 });
+      return NextResponse.json(
+        {
+          error:
+            insertError.message.includes('answer_time_left')
+              ? 'Database is missing answer_time_left. Run the SQL fix first.'
+              : insertError.message,
+        },
+        { status: 500 }
+      );
     }
 
-    const { data: allAnswersForQuestion, error: allAnswersError } = await supabase
+    const { data: roundAnswers, error: roundAnswersError } = await supabase
       .from('multiplayer_answers')
-      .select('player_id, is_correct')
+      .select('player_id, is_correct, answer_time_left')
       .eq('match_id', id)
-      .eq('question_index', questionIndex);
+      .eq('question_index', questionIndex)
+      .order('created_at', { ascending: true });
 
-    if (allAnswersError) {
-      return NextResponse.json({ error: allAnswersError.message }, { status: 500 });
+    if (roundAnswersError) {
+      return NextResponse.json({ error: roundAnswersError.message }, { status: 500 });
     }
 
-    const bothAnswered = (allAnswersForQuestion?.length ?? 0) >= 2;
+    const uniquePlayersAnswered = new Set((roundAnswers ?? []).map((answer) => answer.player_id));
+    const bothAnswered = uniquePlayersAnswered.size >= 2;
 
     if (!bothAnswered) {
       return NextResponse.json({
         success: true,
         waiting: true,
-        isCorrect,
-        pointsEarned,
+        done: false,
       });
     }
 
-    const player1AnsweredCorrectly = !!allAnswersForQuestion?.find(
-      (a) => a.player_id === match.player1_id && a.is_correct
-    );
+    const player1Answer = (roundAnswers ?? []).find(
+      (answer) => answer.player_id === match.player1_id
+    ) as MultiplayerAnswerRow | undefined;
 
-    const player2AnsweredCorrectly = !!allAnswersForQuestion?.find(
-      (a) => a.player_id === match.player2_id && a.is_correct
-    );
+    const player2Answer = (roundAnswers ?? []).find(
+      (answer) => answer.player_id === match.player2_id
+    ) as MultiplayerAnswerRow | undefined;
 
-    let player1Points = 0;
-    let player2Points = 0;
+    const player1Points = player1Answer?.is_correct
+      ? calculatePointsFromTimeLeft(player1Answer.answer_time_left ?? 0)
+      : 0;
 
-    if (user.id === match.player1_id) {
-      player1Points = pointsEarned;
-      player2Points = player2AnsweredCorrectly ? 1 : 0;
-    } else {
-      player2Points = pointsEarned;
-      player1Points = player1AnsweredCorrectly ? 1 : 0;
-    }
+    const player2Points = player2Answer?.is_correct
+      ? calculatePointsFromTimeLeft(player2Answer.answer_time_left ?? 0)
+      : 0;
 
     const nextPlayer1Score = match.player1_score + player1Points;
     const nextPlayer2Score = match.player2_score + player2Points;
@@ -168,6 +178,7 @@ export async function POST(
         status: isLastQuestion ? 'finishing' : 'active',
       })
       .eq('id', id)
+      .eq('current_question_index', questionIndex)
       .select('*')
       .single();
 
@@ -181,8 +192,6 @@ export async function POST(
     return NextResponse.json({
       success: true,
       waiting: false,
-      isCorrect,
-      pointsEarned,
       done: isLastQuestion,
       match: updatedMatch,
     });
