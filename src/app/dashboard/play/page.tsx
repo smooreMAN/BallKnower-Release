@@ -12,7 +12,9 @@ type MatchRecord = {
   current_question_index: number;
   player1_score: number;
   player2_score: number;
-  status: 'active' | 'complete' | 'abandoned';
+  player1_ready: boolean;
+  player2_ready: boolean;
+  status: 'pending' | 'active' | 'complete' | 'abandoned';
   winner_id: string | null;
   started_at: string | null;
   completed_at: string | null;
@@ -79,9 +81,7 @@ export default async function MatchPlayPage({
       <div className="animate-slide-up">
         <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-8 text-center">
           <h1 className="font-display text-4xl text-bk-white mb-2">MATCH NOT FOUND</h1>
-          <p className="text-bk-gray-muted">
-            This match does not exist or is no longer available.
-          </p>
+          <p className="text-bk-gray-muted">This match does not exist or is no longer available.</p>
         </div>
       </div>
     );
@@ -98,7 +98,7 @@ export default async function MatchPlayPage({
     );
   }
 
-  if (!match.started_at) {
+  if (!match.started_at && match.status !== 'active') {
     redirect(`/dashboard/match/${match.id}`);
   }
 

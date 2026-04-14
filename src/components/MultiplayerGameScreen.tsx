@@ -113,7 +113,11 @@ export default function MultiplayerGameScreen({
   const refreshMatch = async () => {
     try {
       setLoadingRefresh(true);
-      const res = await fetch(`/api/match/${match.id}`, { cache: 'no-store' });
+
+      const res = await fetch(`/api/match/${match.id}`, {
+        cache: 'no-store',
+      });
+
       const data = await res.json();
 
       if (!res.ok) {
@@ -124,6 +128,10 @@ export default function MultiplayerGameScreen({
       setPlayers(data.players);
       setQuestions(data.questions);
       setAnswers(data.answers ?? []);
+
+      if (data.result) {
+        setResult(data.result);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -187,6 +195,13 @@ export default function MultiplayerGameScreen({
         if (data.result) {
           setResult(data.result);
         }
+
+        setMatch((prev) => ({
+          ...prev,
+          status: 'complete',
+          current_question_index: questions.length,
+        }));
+
         await refreshMatch();
         return;
       }
@@ -220,7 +235,7 @@ export default function MultiplayerGameScreen({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [currentIndex, match.status]);
+  }, [currentIndex, match.status, myAnswer, currentQuestion]);
 
   useEffect(() => {
     if (match.status !== 'active') return;
@@ -242,22 +257,28 @@ export default function MultiplayerGameScreen({
     return () => clearTimeout(timeout);
   }, [bothAnswered, currentIndex, match.status]);
 
-  if (!currentQuestion && match.status !== 'complete') {
-    return (
-      <div className="max-w-2xl mx-auto py-16 text-center">
-        <div className="w-12 h-12 border-4 border-bk-gold border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-bk-gray-muted">Loading match...</p>
-      </div>
-    );
-  }
-
-  if (match.status === 'complete') {
+  if (match.status === 'complete' || currentIndex >= questions.length) {
     const banner =
       result?.result === 'win'
-        ? { title: 'YOU WIN!', emoji: '🏆', color: 'text-green-400', border: 'border-green-500 bg-green-900/20' }
+        ? {
+            title: 'YOU WIN!',
+            emoji: '🏆',
+            color: 'text-green-400',
+            border: 'border-green-500 bg-green-900/20',
+          }
         : result?.result === 'loss'
-        ? { title: 'YOU LOSE', emoji: '😤', color: 'text-red-400', border: 'border-red-500 bg-red-900/20' }
-        : { title: 'TIE GAME', emoji: '🤝', color: 'text-yellow-400', border: 'border-yellow-500 bg-yellow-900/20' };
+        ? {
+            title: 'YOU LOSE',
+            emoji: '😤',
+            color: 'text-red-400',
+            border: 'border-red-500 bg-red-900/20',
+          }
+        : {
+            title: 'TIE GAME',
+            emoji: '🤝',
+            color: 'text-yellow-400',
+            border: 'border-yellow-500 bg-yellow-900/20',
+          };
 
     return (
       <div className="max-w-2xl mx-auto animate-pop-in">
@@ -326,6 +347,15 @@ export default function MultiplayerGameScreen({
     );
   }
 
+  if (!currentQuestion) {
+    return (
+      <div className="max-w-2xl mx-auto py-16 text-center">
+        <div className="w-12 h-12 border-4 border-bk-gold border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-bk-gray-muted">Loading match...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-2xl mx-auto animate-slide-up">
       <div className="flex items-center justify-between mb-4">
@@ -336,9 +366,7 @@ export default function MultiplayerGameScreen({
           <span className="text-bk-gray-muted text-sm capitalize">
             {match.sport.replace('_', ' ')} · {match.difficulty}
           </span>
-          {loadingRefresh && (
-            <span className="text-xs text-bk-gray-muted">syncing...</span>
-          )}
+          {loadingRefresh && <span className="text-xs text-bk-gray-muted">syncing...</span>}
         </div>
 
         <div className="flex items-center gap-4 text-sm font-bold">
@@ -377,12 +405,12 @@ export default function MultiplayerGameScreen({
 
       <div className="bg-bk-gray border border-bk-gray-light rounded-2xl p-6 mb-6 animate-pop-in">
         <p className="text-bk-white text-xl font-bold leading-relaxed">
-          {currentQuestion?.question}
+          {currentQuestion.question}
         </p>
       </div>
 
       <div className="space-y-3 mb-6">
-        {currentQuestion?.options.map((option, i) => {
+        {currentQuestion.options.map((option, i) => {
           const answered = Boolean(myAnswer);
           const isSelected = myAnswer?.answer_index === i;
           const isCorrect = i === currentQuestion.correct_index;
